@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/whitelist/import', [\App\Http\Controllers\Admin\NisWhitelistController::class, 'import'])->name('admin.whitelist.import');
             Route::get('/whitelist/export', [\App\Http\Controllers\Admin\NisWhitelistController::class, 'export'])->name('admin.whitelist.export');
             Route::delete('/whitelist/destroy-all', [\App\Http\Controllers\Admin\NisWhitelistController::class, 'destroyAll'])->name('admin.whitelist.destroyAll');
+            Route::delete('/whitelist/{whitelist}', [\App\Http\Controllers\Admin\NisWhitelistController::class, 'destroy'])->name('admin.whitelist.destroy');
 
             // MANAJEMEN ZONA PAKAI JURUS RESOURCE AUTOMATIC
             Route::resource('zona', \App\Http\Controllers\Admin\ZonaController::class, ['as' => 'admin'])->except(['show', 'create']);

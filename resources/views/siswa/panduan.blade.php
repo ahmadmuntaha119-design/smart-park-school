@@ -12,19 +12,19 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
     <style>
-        /* ─── THE SILENT CURATOR — Design tokens ─── */
+        /* ─── DESIGN SYSTEM: PREMIUM MONOCHROME TECH ─── */
         :root {
-            --surface:   #f8f9fa;
-            --sl1:       #eaeff1;
-            --sl2:       #ffffff;
-            --sl-hi:     #dbe4e7;
-            --on-s:      #2b3437;
-            --on-v:      #586064;
-            --primary:   #5d5f60;
-            --primary-c: #e2e2e3;
-            --tertiary:  #4c6175;
-            --outline-v: #abb3b7;
-            --ease-exp:  cubic-bezier(0.22, 1, 0.36, 1);
+            --surface:    #000000;
+            --sl1:        #000000;
+            --sl2:        #121212;
+            --sl-hi:      #18181b; /* zinc-900 */
+            --on-s:       #ffffff;
+            --on-v:       #a1a1aa; /* zinc-400 */
+            --primary:    #ffffff;
+            --primary-c:  rgba(255, 255, 255, 0.1);
+            --tertiary:   #e4e4e7; /* zinc-200 */
+            --outline-v:  rgba(255, 255, 255, 0.1);
+            --ease-exp:   cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -76,11 +76,12 @@
         }
         .sc-press:active { transform: scale(0.975); opacity: 0.85; }
 
-        /* Surface cards — tonal depth, no borders */
+        /* Surface cards — Bento Grid */
         .card-l2 {
             background: var(--sl2);
             border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(43,52,55,0.04);
+            border: 1px solid var(--outline-v);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
         .card-l1 {
             background: var(--sl1);
@@ -89,33 +90,39 @@
 
         /* Top bar — Glassmorphism */
         .top-bar {
-            background: rgba(248,249,250,0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--outline-v);
         }
 
         /* Bottom nav */
         .bottom-nav {
-            background: rgba(248,249,250,0.97);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(43,52,55,0.06);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid var(--outline-v);
         }
 
         /* Rule card hover */
         .rule-card {
-            background: var(--sl1);
+            background: var(--sl2);
             border-radius: 16px;
-            transition: background 0.25s var(--ease-exp);
+            border: 1px solid var(--outline-v);
+            transition: all 0.25s var(--ease-exp);
         }
-        .rule-card:hover { background: var(--sl-hi); }
+        .rule-card:hover { 
+            background: var(--sl-hi); 
+            border-color: rgba(255,255,255,0.3);
+        }
 
         /* YouTube embed card */
         .yt-card {
             background: var(--sl2);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(43,52,55,0.06);
+            border: 1px solid var(--outline-v);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
         .yt-card iframe {
@@ -177,7 +184,7 @@
                         <span class="material-symbols-outlined text-[20px]" style="color: var(--primary); font-variation-settings:'FILL' 1;">location_on</span>
                     </div>
                     <h4 class="display-name font-semibold text-[13px] mb-1.5" style="color: var(--on-s);">Parkir Sesuai Zona</h4>
-                    <p class="text-[11px] font-light leading-relaxed" style="color: var(--on-v);">Parkir hanya di zona yang telah ditentukan sesuai kelasmu.</p>
+                    <p class="text-[11px] font-light leading-relaxed" style="color: var(--on-v);">Parkir hanya di zona yang telah ditentukan admin.</p>
                 </div>
 
                 {{-- Rule 3 --}}
@@ -194,10 +201,10 @@
                 <div class="rule-card p-5">
                     <div class="w-10 h-10 rounded-full flex items-center justify-center mb-4"
                          style="background: var(--sl2); box-shadow: 0 2px 8px rgba(43,52,55,0.04);">
-                        <span class="material-symbols-outlined text-[20px]" style="color: var(--primary); font-variation-settings:'FILL' 1;">qr_code</span>
+                        <span class="material-symbols-outlined text-[20px]" style="color: var(--primary); font-variation-settings:'FILL' 1;">my_location</span>
                     </div>
                     <h4 class="display-name font-semibold text-[13px] mb-1.5" style="color: var(--on-s);">Absen Wajib Tiap Hari</h4>
-                    <p class="text-[11px] font-light leading-relaxed" style="color: var(--on-v);">Check-in via kamera + GPS setiap membawa motor ke sekolah.</p>
+                    <p class="text-[11px] font-light leading-relaxed" style="color: var(--on-v);">Check-in menggunakan GPS .</p>
                 </div>
 
                 {{-- Rule 5 --}}
@@ -214,10 +221,10 @@
                 <div class="rule-card p-5">
                     <div class="w-10 h-10 rounded-full flex items-center justify-center mb-4"
                          style="background: var(--sl2); box-shadow: 0 2px 8px rgba(43,52,55,0.04);">
-                        <span class="material-symbols-outlined text-[20px]" style="color: var(--tertiary); font-variation-settings:'FILL' 1;">no_sound</span>
+                        <span class="material-symbols-outlined text-[20px]" style="color: var(--primary); font-variation-settings:'FILL' 1;">people</span>
                     </div>
-                    <h4 class="display-name font-semibold text-[13px] mb-1.5" style="color: var(--on-s);">Tidak Menyalakan Mesin</h4>
-                    <p class="text-[11px] font-light leading-relaxed" style="color: var(--on-v);">Motor harus dimatikan saat memasuki area parkir.</p>
+                    <h4 class="display-name font-semibold text-[13px] mb-1.5" style="color: var(--on-s);">Dilarang Bonceng Tiga</h4>
+                    <p class="text-[11px] font-light leading-relaxed" style="color: var(--on-v);">Dilarang membawa penumpang lebih dari 1 orang.</p>
                 </div>
 
             </div>
@@ -236,7 +243,7 @@
                 <div class="flex gap-4 items-start">
                     <div class="flex flex-col items-center flex-shrink-0">
                         <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[13px]"
-                             style="background: var(--primary); color: #f7f8f8;">1</div>
+                             style="background: var(--primary); color: #000;">1</div>
                         <div style="width:1px; height:32px; background: var(--sl1); margin: 4px 0;"></div>
                     </div>
                     <div class="pb-4">
@@ -249,12 +256,12 @@
                 <div class="flex gap-4 items-start">
                     <div class="flex flex-col items-center flex-shrink-0">
                         <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[13px]"
-                             style="background: var(--primary); color: #f7f8f8;">2</div>
+                             style="background: var(--primary); color: #000;">2</div>
                         <div style="width:1px; height:32px; background: var(--sl1); margin: 4px 0;"></div>
                     </div>
                     <div class="pb-4">
-                        <p class="text-[13px] font-semibold" style="color: var(--on-s);">Izinkan Kamera & GPS</p>
-                        <p class="text-[11px] font-light mt-0.5 leading-relaxed" style="color: var(--on-v);">Browser akan meminta izin akses kamera dan lokasi. Keduanya wajib diizinkan.</p>
+                        <p class="text-[13px] font-semibold" style="color: var(--on-s);">Izinkan Akses Lokasi</p>
+                        <p class="text-[11px] font-light mt-0.5 leading-relaxed" style="color: var(--on-v);">Browser akan meminta izin akses lokasi.</p>
                     </div>
                 </div>
 
@@ -262,7 +269,7 @@
                 <div class="flex gap-4 items-start">
                     <div class="flex flex-col items-center flex-shrink-0">
                         <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[13px]"
-                             style="background: var(--primary); color: #f7f8f8;">3</div>
+                             style="background: var(--primary); color: #000;">3</div>
                         <div style="width:1px; height:32px; background: var(--sl1); margin: 4px 0;"></div>
                     </div>
                     <div class="pb-4">
@@ -275,24 +282,11 @@
                 <div class="flex gap-4 items-start">
                     <div class="flex flex-col items-center flex-shrink-0">
                         <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[13px]"
-                             style="background: var(--primary); color: #f7f8f8;">4</div>
-                        <div style="width:1px; height:32px; background: var(--sl1); margin: 4px 0;"></div>
-                    </div>
-                    <div class="pb-4">
-                        <p class="text-[13px] font-semibold" style="color: var(--on-s);">Foto Motor yang Terparkir</p>
-                        <p class="text-[11px] font-light mt-0.5 leading-relaxed" style="color: var(--on-v);">Arahkan kamera ke motormu yang sudah terparkir, lalu tekan "Ambil Foto Motor".</p>
-                    </div>
-                </div>
-
-                {{-- Step 5 --}}
-                <div class="flex gap-4 items-start">
-                    <div class="flex flex-col items-center flex-shrink-0">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[13px]"
-                             style="background: #1AB076; color: #fff;">✓</div>
+                             style="background: var(--on-s); color: #000;">✓</div>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold" style="color: var(--on-s);">Konfirmasi & Selesai</p>
-                        <p class="text-[11px] font-light mt-0.5 leading-relaxed" style="color: var(--on-v);">Periksa foto, lalu tekan "Konfirmasi Absen". Absensimu tercatat otomatis.</p>
+                        <p class="text-[11px] font-light mt-0.5 leading-relaxed" style="color: var(--on-v);">Setelah Konfirmasi Selesai absensimu berhasil tercatat.</p>
                     </div>
                 </div>
 
@@ -303,46 +297,44 @@
         <div class="tonal-divider mx-6 mb-6"></div>
 
         {{-- ── VIDEO TUTORIAL ZONA PARKIR ── --}}
-        <section style="padding: 0 24px 28px;">
-            <h3 class="display-name font-bold text-[16px] mb-2" style="color: var(--on-s);">Video Panduan Zona Parkir</h3>
-            <p class="text-[12px] font-light mb-4" style="color: var(--on-v);">Pelajari denah dan zona parkir sekolah melalui video berikut.</p>
+        <section style="padding: 0 24px 80px;">
+            <h3 class="font-bold text-[16px] mb-2" style="font-family:'Manrope',sans-serif; color:var(--on-s);">Video Panduan Zona Parkir</h3>
+            <p class="text-[12px] font-light mb-4" style="color:var(--on-v);">Pelajari denah dan zona parkir sekolah melalui video berikut.</p>
 
-            {{-- YouTube Card 1 --}}
-            <div class="yt-card mb-4">
-                <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
-                    <iframe
-                        src="https://www.youtube.com/embed/kzunPLbBjBo"
-                        title="Panduan Zona Parkir SMKN 1 Kebumen"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen
-                        loading="lazy"
-                        style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
-                    </iframe>
-                </div>
-                <div style="padding: 16px 20px 20px;">
-                    <h4 class="display-name font-semibold text-[14px]" style="color: var(--on-s);">Denah Zona Parkir Sekolah</h4>
-                    <p class="text-[12px] font-light mt-1" style="color: var(--on-v);">Panduan visual lokasi tiap zona parkir agar kamu selalu parkir di tempat yang benar.</p>
-                </div>
-            </div>
+            {{-- Video Card --}}
+            <a href="https://www.youtube.com/watch?v=kzunPLbBjBo" target="_blank" rel="noopener noreferrer"
+               class="group block rounded-2xl overflow-hidden relative"
+               style="background:var(--sl2); border:1px solid var(--outline-v);">
 
-            {{-- YouTube Card 2 --}}
-            <div class="yt-card mb-4">
-                <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
-                    <iframe
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                        title="Cara Menggunakan Smart Parkir"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen
-                        loading="lazy"
-                        style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
-                    </iframe>
+                {{-- Thumbnail / Gradient Area --}}
+                <div class="relative w-full" style="padding-bottom:56.25%;">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-zinc-950 via-zinc-900 to-zinc-800"></div>
+
+                    {{-- Grid overlay --}}
+                    <div class="absolute inset-0" style="
+                        background-image:
+                            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+                        background-size: 32px 32px;
+                    "></div>
+
+                    {{-- Play Button --}}
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                             style="background:rgba(255,255,255,0.1); border:1.5px solid rgba(255,255,255,0.25); backdrop-filter:blur(8px);">
+                            <span class="material-icons-round text-white text-[32px] ml-1">play_arrow</span>
+                        </div>
+                    </div>
+
+                    {{-- Bottom label inside thumbnail --}}
+                    <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top, rgba(0,0,0,0.85), transparent);">
+                        <p class="text-[10px] font-semibold uppercase tracking-widest mb-0.5" style="color:var(--on-v);">Video Visual Denah</p>
+                        <p class="text-[14px] font-bold leading-snug" style="color:var(--on-s);">Tonton Video untuk Mengetahui Zona yang Didapatkan</p>
+                    </div>
                 </div>
-                <div style="padding: 16px 20px 20px;">
-                    <h4 class="display-name font-semibold text-[14px]" style="color: var(--on-s);">Cara Menggunakan Aplikasi Smart Parkir</h4>
-                    <p class="text-[12px] font-light mt-1" style="color: var(--on-v);">Tutorial lengkap check-in, check-out, dan cara melihat riwayat parkir harianmu.</p>
-                </div>
-            </div>
+            </a>
         </section>
+
 
     </div>{{-- end app-scroll --}}
 

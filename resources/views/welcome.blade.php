@@ -1,216 +1,264 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Smart Parkir – SMKN 1 Kebumen</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    {{-- Menggunakan Inter untuk tampilan clean dan Manrope untuk Heading yang tegas --}}
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
     <style>
-        :root {
-            --surface: #faf8f5;
-            --on-s: #2d241e;
-            --on-v: #7a6b61;
-            --primary: #c2652a; /* goldenrod Sahara */
-            --primary-h: #a8551e;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--surface);
-            color: var(--on-s);
+            background-color: #000000;
+            color: #ffffff;
             -webkit-font-smoothing: antialiased;
         }
 
         h1, h2, h3, h4, .display-font {
             font-family: 'Manrope', sans-serif;
+            letter-spacing: -0.02em;
         }
 
+        /* Glassmorphism Navbar ala iOS */
         .glass-nav {
-            background: rgba(250, 248, 245, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(232, 225, 215, 0.5);
+            background: rgba(10, 10, 10, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .sahara-btn {
-            background: var(--primary);
-            color: #fff;
-            transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 8px 24px -6px rgba(194,101,42,0.4);
+        /* Tombol Utama iOS Style */
+        .btn-primary {
+            background: #ffffff;
+            color: #000000;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
-        .sahara-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px -8px rgba(194,101,42,0.5);
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            background: #f4f4f5;
         }
-        .sahara-btn:active {
+        .btn-primary:active {
             transform: scale(0.97);
         }
+
+        /* Tombol Sekunder/Outline */
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Bento Box Container */
+        .bento-card {
+            background: #121212;
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
         
-        .sahara-btn-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 1.5px solid var(--primary);
-            transition: all 0.2s;
-        }
-        .sahara-btn-outline:hover {
-            background: rgba(194,101,42,0.05);
-        }
-
-        .feature-card {
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 4px 24px rgba(45,36,30,0.03);
-            border: 1px solid rgba(232,225,215,0.6);
-        }
-
-        /* Abstract blobs */
-        .blob {
+        /* Subtle Glow / Ambient Light */
+        .ambient-glow {
             position: absolute;
-            filter: blur(60px);
-            z-index: 0;
-            opacity: 0.4;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             pointer-events: none;
+            z-index: 0;
         }
     </style>
 </head>
-<body class="relative overflow-x-hidden min-h-screen flex flex-col">
+<body class="relative overflow-x-hidden min-h-screen flex flex-col selection:bg-white/20 selection:text-white">
 
-    {{-- Decor Blobs --}}
-    <div class="blob w-72 h-72 rounded-full top-[-100px] right-[-50px]" style="background: var(--primary); opacity: 0.15;"></div>
-    <div class="blob w-96 h-96 rounded-full bottom-[10%] left-[-100px]" style="background: rgba(45,36,30,0.1);"></div>
+    {{-- Latar Belakang --}}
+    <div class="fixed inset-0 bg-black z-[-2]"></div>
+    {{-- Grid Halus di Latar Belakang --}}
+    <div class="fixed inset-0 opacity-[0.03] z-[-1]" style="background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px); background-size: 40px 40px;"></div>
 
     {{-- ==================== NAVBAR ==================== --}}
-    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300 pointer-events-auto">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav class="fixed top-0 w-full z-50 glass-nav pointer-events-auto">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-black rounded-lg relative overflow-hidden">
-                    <img src="{{ asset('image/logopks-removebg-preview.png') }}" alt="Logo" class="w-full h-full object-contain p-1 relative z-10" />
+                <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl relative overflow-hidden backdrop-blur-md">
+                    <img src="{{ asset('image/logopks-removebg-preview.png') }}" alt="Logo" class="w-full h-full object-contain p-1.5 relative z-10 brightness-0 invert opacity-90" />
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-[16px] leading-tight text-[var(--on-s)] tracking-tight">Smart Parkir</h1>
-                    <p class="text-[10px] font-bold tracking-widest text-[var(--on-v)] uppercase">SMKN 1 Kebumen</p>
+                    <h1 class="font-extrabold text-[15px] leading-tight text-white tracking-tight">Smart Parkir</h1>
+                    <p class="text-[10px] font-bold tracking-widest text-zinc-500 uppercase">SMKN 1 Kebumen</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
-                <a href="{{ route('daftar') }}" class="sahara-btn px-5 py-2.5 rounded-xl font-extrabold text-[13px] tracking-wide uppercase">Daftar</a>
+            <div class="flex items-center gap-4">
+                <a href="{{ route('daftar') }}" class="btn-primary px-5 py-2 rounded-full font-extrabold text-[12px] tracking-wide uppercase">Daftar</a>
             </div>
 
         </div>
     </nav>
 
     {{-- ==================== HERO SECTION ==================== --}}
-    <main class="flex-1 flex flex-col justify-center relative z-10 pt-28 pb-16 px-6">
-        <div class="max-w-xl mx-auto text-center">
+    <main class="flex-1 flex flex-col justify-center relative z-10 pt-40 pb-20 px-6">
+        <div class="ambient-glow top-[30%]"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
             
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style="background: rgba(194,101,42,0.1); border: 1px solid rgba(194,101,42,0.2);">
-                <span class="material-icons-round text-[16px]" style="color: var(--primary);">verified_user</span>
-                <span class="text-[12px] font-extrabold uppercase tracking-widest" style="color: var(--primary);">Sistem Keamanan Resmi</span>
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 bg-white/5 border border-white/10 backdrop-blur-md">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></span>
+                <span class="text-[11px] font-extrabold uppercase tracking-widest text-zinc-300">Sistem Keamanan Resmi</span>
             </div>
 
-            <h2 class="display-font text-[40px] leading-[1.1] font-extrabold text-[var(--on-s)] mb-5 tracking-tight sm:text-[52px]">
-                Parkir Lebih Cerdas, Aman & Terdata
+            <h2 class="display-font text-[48px] sm:text-[72px] leading-[1.05] font-extrabold text-white mb-6 tracking-tight">
+                Sistem Parkir Terpadu.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-300 via-white to-zinc-500">Aman. Instan.</span>
             </h2>
             
-            <p class="text-[15px] sm:text-[17px] font-medium leading-relaxed text-[var(--on-v)] mb-10 max-w-md mx-auto">
-                Kelola kendaraan Anda di SMK N 1 Kebumen dengan sistem verifikasi zona GPS, tiket digital, dan pantauan area parkir secara real-time.
+            <p class="text-[16px] sm:text-[18px] font-medium leading-relaxed text-zinc-400 mb-12 max-w-xl mx-auto">
+                Infrastruktur parkir generasi baru untuk SMKN 1 Kebumen. Verifikasi zona GPS, kartu digital, dan visibilitas waktu nyata tanpa hambatan gerbang.
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="{{ route('login') }}" class="w-full sm:w-auto sahara-btn flex items-center justify-center gap-2 px-8 py-4 rounded-[16px] font-extrabold text-[15px] uppercase tracking-wide">
-                    Login Aplikasi
+                <a href="{{ route('login') }}" class="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 px-8 py-4 rounded-full font-extrabold text-[14px] uppercase tracking-wider">
+                    Buka Aplikasi
+                    <span class="material-icons-round text-[18px]">arrow_forward</span>
                 </a>
-                <a href="#fitur" class="w-full sm:w-auto sahara-btn-outline flex items-center justify-center px-8 py-4 rounded-[16px] font-extrabold text-[15px] uppercase tracking-wide bg-white">
-                    Selengkapnya
+                <a href="#fitur" class="w-full sm:w-auto btn-outline flex items-center justify-center px-8 py-4 rounded-full font-extrabold text-[14px] uppercase tracking-wider">
+                    Lihat Fitur
                 </a>
             </div>
 
         </div>
     </main>
 
-    {{-- ==================== YOUTUBE VIDEO GUIDE ==================== --}}
-    <section class="relative z-10 px-6 pb-20 mt-4">
-        <div class="max-w-3xl mx-auto text-center mb-8">
-            <p class="text-[14px] font-bold tracking-widest text-[var(--primary)] uppercase mb-2">Panduan Interaktif</p>
-            <h3 class="display-font text-[24px] font-extrabold text-[var(--on-s)]">Cara Menggunakan Aplikasi</h3>
-        </div>
-        
-        <div class="max-w-3xl mx-auto relative rounded-[32px] p-2 shadow-2xl" style="background: linear-gradient(145deg, #e8e1d7, #fff); border: 1px solid rgba(255,255,255,0.7);">
-            <div class="relative rounded-[24px] overflow-hidden bg-[#2b3437] aspect-video flex items-center justify-center group shadow-inner">
+    {{-- ==================== VIDEO BENTO ==================== --}}
+    <section class="relative z-10 px-6 pb-20">
+        <div class="max-w-5xl mx-auto">
+            <div class="bento-card aspect-video w-full flex items-center justify-center group cursor-pointer relative">
+                {{-- Decorative mesh gradient background inside video card --}}
+                <div class="absolute inset-0 bg-gradient-to-tr from-zinc-900 to-zinc-800 opacity-50"></div>
                 
-                {{-- Abstract pattern --}}
-                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
-                
-                {{-- Decorative background placeholder --}}
-                <div class="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-black/40 group-hover:bg-black/20 transition-colors duration-500"></div>
-                
-                {{-- Play Button & Link --}}
-                <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="relative z-10 flex flex-col items-center justify-center transform transition-transform duration-300 group-hover:scale-110">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 flex items-center justify-center mb-4 shadow-[0_0_40px_rgba(220,38,38,0.6)] group-hover:bg-red-500 transition-colors">
-                        <span class="material-icons-round text-white text-[36px] sm:text-[44px] ml-1 sm:ml-2">play_arrow</span>
-                    </div>
-                    <p class="text-white font-extrabold text-[14px] sm:text-[16px] tracking-wide uppercase drop-shadow-md">Tonton Video Panduan</p>
+                {{-- Play Button --}}
+                <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="relative z-10 flex flex-col items-center justify-center transform transition-transform duration-500 group-hover:scale-110">
+                    <>
                 </a>
 
+
+                <div class="absolute bottom-6 left-8">
+                    <p class="text-zinc-500 font-medium text-[12px] uppercase tracking-widest">Tutorial 01</p>
+                    <p class="text-white font-bold text-[18px]">Cara Penggunaan Digital Pass</p>
+                </div>
             </div>
         </div>
     </section>
 
-    {{-- ==================== HIGHLIGHT FEATURES ==================== --}}
-    <section id="fitur" class="relative z-10 bg-white py-20 px-6 border-t border-[rgba(232,225,215,0.5)]">
-        <div class="max-w-5xl mx-auto">
+    {{-- ==================== BENTO BOX FEATURES ==================== --}}
+    <section id="fitur" class="relative z-10 py-24 px-6 border-t border-white/5">
+        <div class="max-w-6xl mx-auto">
             
-            <div class="text-center mb-14">
-                <h3 class="display-font text-[28px] font-extrabold text-[var(--on-s)] mb-3">Inovasi Tanpa Batas</h3>
-                <p class="text-[14px] font-medium text-[var(--on-v)] max-w-sm mx-auto">Dirancang untuk memudahkan mobilitas ribuan siswa secara instan & tanpa antrean keamanan panjang.</p>
+            <div class="mb-16">
+                <h3 class="display-font text-[36px] font-extrabold text-white mb-4">Arsitektur Cerdas</h3>
+                <p class="text-[16px] text-zinc-400 max-w-xl leading-relaxed">Sistem parkir yang didesain secara modular untuk menghilangkan hambatan fisik, meningkatkan keamanan, dan memodernisasi infrastruktur sekolah.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {{-- Feature 1 --}}
-                <div class="feature-card p-8">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style="background: rgba(194,101,42,0.1);">
-                        <span class="material-icons-round text-[28px]" style="color: var(--primary);">radar</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                {{-- Feature 1: Large Span --}}
+                <div class="bento-card p-10 md:col-span-2 relative overflow-hidden group">
+                    <div class="absolute right-0 top-0 w-64 h-64 bg-white/5 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 group-hover:bg-white/10 transition-colors duration-700"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-white/10 border border-white/10 backdrop-blur-md">
+                            <span class="material-icons-round text-[28px] text-white">satellite_alt</span>
+                        </div>
+                        <h4 class="font-extrabold text-[24px] text-white mb-3 tracking-tight">Geofencing Real-Time</h4>
+                        <p class="text-[15px] font-medium text-zinc-400 max-w-md leading-relaxed">
+                            Absensi otomatis tanpa memicu kerumunan gerbang. Algoritma berbasis lokasi kami memverifikasi presensi seketika saat Anda memasuki area teritorial sekolah.
+                        </p>
                     </div>
-                    <h4 class="font-extrabold text-[17px] text-[var(--on-s)] mb-2">Check-in Radius GPS</h4>
-                    <p class="text-[13px] font-medium text-[var(--on-v)] line-clamp-3">
-                        Katakan selamat tinggal pada antrean gerbang. Cukup ketuk untuk absen otomatis saat gawai Anda masuki radius terpadu.
+                </div>
+
+                {{-- Feature 2: Small Box --}}
+                <div class="bento-card p-10 relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-white/5 border border-white/10">
+                        <span class="material-icons-round text-[24px] text-white">grid_view</span>
+                    </div>
+                    <h4 class="font-extrabold text-[20px] text-white mb-3 tracking-tight">Zonasi Dinamis</h4>
+                    <p class="text-[14px] font-medium text-zinc-400 leading-relaxed">
+                        Distribusi blok parkir berbasis data. Anda akan selalu mengetahui secara pasti posisi kendaraan Anda melalui antarmuka visual yang terintegrasi.
                     </p>
                 </div>
 
-                {{-- Feature 2 --}}
-                <div class="feature-card p-8">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style="background: rgba(26,176,118,0.1);">
-                        <span class="material-icons-round text-[28px]" style="color: #1AB076;">qr_code_scanner</span>
+                {{-- Feature 3: Small Box --}}
+                <div class="bento-card p-10 relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-white/5 border border-white/10">
+                        <span class="material-icons-round text-[24px] text-white">fact_check</span>
                     </div>
-                    <h4 class="font-extrabold text-[17px] text-[var(--on-s)] mb-2">Sistem Zonasi Khusus</h4>
-                    <p class="text-[13px] font-medium text-[var(--on-v)] line-clamp-3">
-                        Blok dan area diatur cerdas. Ketahui titik kendaraan Anda tanpa repot mencarinya secara manual saat jam pulang.
+                    <h4 class="font-extrabold text-[20px] text-white mb-3 tracking-tight">Regulasi Otomatis</h4>
+                    <p class="text-[14px] font-medium text-zinc-400 leading-relaxed">
+                        Mesin validasi aturan terpadu menertibkan distribusi tipe transmisi dan marka kendaraan agar selaras dengan ketertiban lingkungan akademik.
                     </p>
                 </div>
 
-                {{-- Feature 3 --}}
-                <div class="feature-card p-8">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style="background: rgba(45,36,30,0.06);">
-                        <span class="material-icons-round text-[28px]" style="color: var(--on-s);">inventory_2</span>
+                {{-- Feature 4: Large Span --}}
+                <div class="bento-card p-10 md:col-span-2 relative overflow-hidden group flex flex-col justify-end min-h-[280px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 grayscale mix-blend-overlay group-hover:opacity-30 group-hover:scale-105 transition-all duration-700"></div>
+                    
+                    <div class="relative z-20">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-white/20 backdrop-blur-md border border-white/30">
+                            <span class="material-icons-round text-[24px] text-white">shield</span>
+                        </div>
+                        <h4 class="font-extrabold text-[24px] text-white mb-2 tracking-tight">Digital Pass Keamanan</h4>
+                        <p class="text-[15px] font-medium text-zinc-300 max-w-lg leading-relaxed">
+                            Akses masuk menggunakan tiket terenkripsi yang diikat pada ID spesifik Anda. Pos keamanan memiliki kendali absolut atas validitas mobilitas lingkungan.
+                        </p>
                     </div>
-                    <h4 class="font-extrabold text-[17px] text-[var(--on-s)] mb-2">Pusat Lost & Found</h4>
-                    <p class="text-[13px] font-medium text-[var(--on-v)] line-clamp-3">
-                        Ada helm atau barang yang tertinggal di atas motor? Posko keamanan segera memublikasikannya ke beranda profil.
-                    </p>
                 </div>
+
             </div>
 
         </div>
     </section>
 
     {{-- ==================== FOOTER ==================== --}}
-    <footer class="bg-[var(--surface)] border-t border-[rgba(232,225,215,0.7)] pb-4 pt-10 px-6">
-        <div class="max-w-5xl mx-auto flex flex-col items-center text-center">
-            <p class="text-[13px] font-extrabold text-[var(--on-v)] mb-1">PKS SMK NEGERI 1 KEBUMEN</p>
-            <p class="text-[11px] font-medium text-[#abb3b7]">Platform Smart Parkir &copy; {{ date('Y') }}</p>
+    <footer class="bg-[#050505] border-t border-white/10 py-12 px-6 mt-10 relative z-10">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            
+            <div class="flex items-center gap-4">
+                <div class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center border border-white/5">
+                    <img src="{{ asset('image/logopks-removebg-preview.png') }}" alt="Logo" class="w-full h-full object-contain p-1 brightness-0 invert opacity-60" />
+                </div>
+                <div>
+                    <p class="text-[14px] font-bold text-zinc-300">ParkirPintar</p>
+                    <p class="text-[11px] font-medium text-zinc-600">SMK Negeri 1 Kebumen</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6 text-[12px] font-medium text-zinc-500">
+                <a href="#" class="hover:text-white transition-colors">Tentang Sistem</a>
+                <a href="#" class="hover:text-white transition-colors">Pusat Bantuan</a>
+                <a href="#" class="hover:text-white transition-colors">Privasi</a>
+            </div>
+            
+            <p class="text-[11px] font-medium text-zinc-600">&copy; {{ date('Y') }} Sistem Parkir Terpadu.</p>
         </div>
     </footer>
 

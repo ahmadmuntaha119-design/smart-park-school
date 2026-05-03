@@ -13,31 +13,22 @@
 
     <style>
         /* ─────────────────────────────────────────
-           DESIGN SYSTEM: THE SILENT CURATOR
-           Surface Palette:
-             base      : #f8f9fa  (surface)
-             level-1   : #eaeff1  (surface-container)
-             level-2   : #ffffff  (surface-container-lowest)
-             level-hi  : #dbe4e7  (surface-container-highest)
-             on-surface: #2b3437
-             on-variant: #586064
-             primary   : #5d5f60
-             tertiary  : #4c6175
+           DESIGN SYSTEM: PREMIUM MONOCHROME TECH
         ───────────────────────────────────────── */
         *, *::before, *::after { box-sizing: border-box; }
         * { -webkit-tap-highlight-color: transparent; }
 
         :root {
-            --surface:    #f8f9fa;
-            --sl1:        #eaeff1;
-            --sl2:        #ffffff;
-            --sl-hi:      #dbe4e7;
-            --on-s:       #2b3437;
-            --on-v:       #586064;
-            --primary:    #5d5f60;
-            --primary-c:  #e2e2e3;
-            --tertiary:   #4c6175;
-            --outline-v:  #abb3b7;
+            --surface:    #000000;
+            --sl1:        #000000;
+            --sl2:        #121212;
+            --sl-hi:      #18181b; /* zinc-900 */
+            --on-s:       #ffffff;
+            --on-v:       #a1a1aa; /* zinc-400 */
+            --primary:    #ffffff;
+            --primary-c:  rgba(255, 255, 255, 0.1);
+            --tertiary:   #e4e4e7; /* zinc-200 */
+            --outline-v:  rgba(255, 255, 255, 0.1);
             --ease-exp:   cubic-bezier(0.22, 1, 0.36, 1);
         }
 
@@ -88,13 +79,12 @@
         }
         .sc-press:active { transform: scale(0.975); opacity: 0.85; }
 
-        /* ── SURFACE CARDS ──
-           No explicit borders. Depth via background shifts only. */
+        /* ── SURFACE CARDS ── */
         .card-l2 {
             background: var(--sl2);
             border-radius: 20px;
-            /* Ambient shadow per spec: blur 30–40px, 4–8% opacity, on-surface color */
-            box-shadow: 0 8px 32px rgba(43,52,55,0.06);
+            border: 1px solid var(--outline-v);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
         .card-l1 {
@@ -104,21 +94,28 @@
 
         /* ── TOP APP BAR ── */
         .top-bar {
-            /* Glass per spec: surface color 80% opacity, 15–25px blur */
-            background: rgba(248,249,250,0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--outline-v);
         }
 
-        /* ── PARK PASS CARD ── */
+        /* ── PARK PASS CARD (APPLE WALLET STYLE) ── */
         .pass-card {
             border-radius: 24px;
             overflow: hidden;
             position: relative;
-            /* Dark premium background — silent contrast against warm surface */
-            background: linear-gradient(145deg, #202427 0%, #2b3437 100%);
-            /* Ambient shadow per spec */
-            box-shadow: 0 32px 60px -12px rgba(43,52,55,0.22);
+            background: linear-gradient(145deg, #121212 0%, #1a1a1a 100%);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 32px 60px -12px rgba(0,0,0,0.6);
+        }
+        
+        .pass-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.05) 0%, transparent 60%);
+            pointer-events: none;
         }
 
         .pass-card-mono {
@@ -130,25 +127,31 @@
         /* ── BOTTOM ACTION ── */
         .bottom-dock {
             background: linear-gradient(180deg,
-                rgba(248,249,250,0) 0%,
-                rgba(248,249,250,0.95) 18%,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0.95) 18%,
                 var(--surface) 100%);
         }
 
         .btn-primary {
             background: var(--primary);
+            color: #000;
+            font-weight: 800;
             border-radius: 16px;
             transition: all 0.25s var(--ease-exp);
-            /* Ambient shadow */
-            box-shadow: 0 12px 32px -6px rgba(93,95,96,0.3);
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
-        .btn-primary:hover { box-shadow: 0 16px 40px -8px rgba(93,95,96,0.38); }
+        .btn-primary:hover { 
+            box-shadow: 0 0 30px rgba(255,255,255,0.2); 
+            background: #e4e4e7;
+        }
 
         .btn-danger {
-            background: #c53030;
+            background: rgba(220, 38, 38, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(220, 38, 38, 0.3);
             border-radius: 16px;
             transition: all 0.25s var(--ease-exp);
-            box-shadow: 0 12px 32px -6px rgba(197,48,48,0.3);
+            box-shadow: 0 0 20px rgba(220,38,38,0.1);
         }
 
         .btn-done {
@@ -163,17 +166,18 @@
             padding: 4px 12px;
             border-radius: 999px;
             background: var(--primary-c);
-            font-size: 11px; font-weight: 600;
+            font-size: 11px; font-weight: 800;
             color: var(--primary);
         }
         .chip-accent {
-            background: rgba(76,97,117,0.1);
-            color: var(--tertiary);
+            background: rgba(255,255,255,0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         /* ── FLASH ALERT ── */
-        .alert-success { background: #f0fff4; color: #276749; }
-        .alert-error   { background: #fff5f5; color: #9b2c2c; }
+        .alert-success { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .alert-error   { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
 
         /* ── CAMERA OVERLAY ── */
         .camera-overlay {
@@ -196,8 +200,8 @@
         .bottom-sheet {
             background: var(--sl2);
             border-radius: 28px 28px 0 0;
-            /* Ambient shadow per spec */
-            box-shadow: 0 -20px 60px rgba(43,52,55,0.1);
+            border-top: 1px solid var(--outline-v);
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
         }
 
         /* Manrope display */
@@ -221,7 +225,7 @@
         <div class="flex items-center justify-between px-6 flex-shrink-0"
              style="padding-top: max(44px, env(safe-area-inset-top, 44px)); padding-bottom:14px; background:rgba(0,0,0,0.5); backdrop-filter:blur(16px);">
             <div>
-                <p class="text-[10px] font-semibold uppercase tracking-widest" style="color:#1AB076;">Verifikasi Lokasi Parkir</p>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Verifikasi Lokasi Parkir</p>
                 <p class="text-[15px] font-semibold text-white mt-0.5" x-text="overlayTitle"></p>
             </div>
             <button @click="cancelCheckIn()" class="w-9 h-9 rounded-full flex items-center justify-center sc-press"
@@ -234,10 +238,10 @@
         <div class="relative flex-1 flex flex-col items-center justify-center overflow-hidden gap-6">
             <div class="w-32 h-32 rounded-full flex items-center justify-center relative">
                 <div class="absolute inset-0 rounded-full" 
-                     :style="inRange ? 'background:#1AB076; animation: gps-pulse 2s cubic-bezier(0.22, 1, 0.36, 1) infinite' : (jarak !== null ? 'background:#fc8181; animation: gps-pulse 2s cubic-bezier(0.22, 1, 0.36, 1) infinite' : 'background:rgba(255,255,255,0.1); animation: gps-pulse 1.5s cubic-bezier(0.22, 1, 0.36, 1) infinite')">
+                     :style="inRange ? 'background:#ffffff; animation: gps-pulse 2s cubic-bezier(0.22, 1, 0.36, 1) infinite' : (jarak !== null ? 'background:#52525b; animation: gps-pulse 2s cubic-bezier(0.22, 1, 0.36, 1) infinite' : 'background:rgba(255,255,255,0.1); animation: gps-pulse 1.5s cubic-bezier(0.22, 1, 0.36, 1) infinite')">
                 </div>
                 <div class="absolute inset-2 rounded-full flex items-center justify-center z-10"
-                     :style="inRange ? 'background:#1AB076; box-shadow: 0 0 20px rgba(26,176,118,0.5)' : (jarak !== null ? 'background:#fc8181; box-shadow: 0 0 20px rgba(252,129,129,0.5)' : 'background:rgba(255,255,255,0.2)')">
+                     :style="inRange ? 'background:#ffffff; box-shadow: 0 0 30px rgba(255,255,255,0.5)' : (jarak !== null ? 'background:#3f3f46; box-shadow: 0 0 20px rgba(63,63,70,0.5)' : 'background:rgba(255,255,255,0.2)')">
                      <span class="material-symbols-outlined text-white" style="font-size:42px; font-variation-settings: 'FILL' 1;">
                          <template x-if="jarak === null">location_searching</template>
                          <template x-if="jarak !== null && inRange">near_me</template>
@@ -637,7 +641,7 @@
         </div>{{-- end app-scroll --}}
 
         {{-- ── BOTTOM NAVIGATION + CTA DOCK ── --}}
-        <div class="absolute bottom-0 left-0 right-0" style="background: rgba(248,249,250,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+        <div class="absolute bottom-0 left-0 right-0" style="background: rgba(0,0,0,0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-top: 1px solid var(--outline-v);">
 
             {{-- CTA Action --}}
             <div class="px-6 pt-4">
@@ -675,7 +679,7 @@
 
             {{-- Bottom Nav Bar --}}
             <div class="flex items-center justify-around px-4 pt-3"
-                 style="padding-bottom: max(18px, env(safe-area-inset-bottom, 18px)); border-top: 1px solid rgba(43,52,55,0.06); margin-top: 12px;">
+                 style="padding-bottom: max(18px, env(safe-area-inset-bottom, 18px)); border-top: 1px solid var(--outline-v); margin-top: 12px;">
 
                 {{-- Home – ACTIVE --}}
                 <a href="{{ route('siswa.dashboard') }}"
@@ -717,21 +721,21 @@
      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
      style="display: none;" x-transition>
      
-     <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl" @click.away="open = false">
-         <div class="p-4 border-b flex justify-between items-center" style="background: #faf8f5; border-color: #e8e1d7;">
-             <h3 class="font-extrabold text-sm" style="color: #2d241e;">
-                 <span class="material-icons-round text-[16px] align-text-bottom" style="color: #c2652a;">map</span> 
+     <div class="bg-[#1a1a1a] border border-white/10 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl" @click.away="open = false">
+         <div class="p-4 border-b border-white/10 flex justify-between items-center" style="background: #121212;">
+             <h3 class="font-extrabold text-sm text-white">
+                 <span class="material-icons-round text-[16px] align-text-bottom text-white">map</span> 
                  Denah Zona {{ $kendaraan->zona->nama_zona }}
              </h3>
-             <button @click="open = false" class="text-gray-400 hover:text-gray-800 transition-colors">
+             <button @click="open = false" class="text-zinc-500 hover:text-white transition-colors">
                  <span class="material-icons-round text-[20px]">close</span>
              </button>
          </div>
-         <div class="p-3 bg-gray-100">
-             <img src="{{ Storage::url($kendaraan->zona->foto_denah) }}" class="w-full rounded-xl shadow-inner" alt="Peta Zona">
+         <div class="p-3 bg-black">
+             <img src="{{ Storage::url($kendaraan->zona->foto_denah) }}" class="w-full rounded-xl shadow-inner border border-white/10" alt="Peta Zona">
          </div>
-         <div class="p-3 text-center" style="background: #faf8f5;">
-             <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Tutup pop-up dengan mengetuk area luar</p>
+         <div class="p-3 text-center" style="background: #121212;">
+             <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Tutup pop-up dengan mengetuk area luar</p>
          </div>
      </div>
 </div>

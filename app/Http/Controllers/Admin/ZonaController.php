@@ -17,6 +17,11 @@ class ZonaController extends Controller
         'Abu-abu', 'Coklat', 'Orange', 'Kuning', 'Pink', 'Ungu', 'Lainnya'
     ];
 
+    // Daftar merek standar untuk filter aturan
+    const MEREK_LIST = [
+        'Honda', 'Yamaha', 'Suzuki', 'Kawasaki', 'Vespa', 'Lainnya'
+    ];
+
     // Menampilkan Tabel Seluruh Zona beserta Baris-barisnya
     public function index()
     {
@@ -55,7 +60,8 @@ class ZonaController extends Controller
     {
         $zona->load('baris.kendaraan');
         $warnaList = self::WARNA_LIST;
-        return view('admin.zona.editzona', compact('zona', 'warnaList'));
+        $merekList = self::MEREK_LIST;
+        return view('admin.zona.editzona', compact('zona', 'warnaList', 'merekList'));
     }
 
     // Menyimpan perubahan (Update) ke Database
@@ -190,6 +196,8 @@ class ZonaController extends Controller
             if ($b->syarat_filter) {
                 $parts = [];
                 if (!empty($b->syarat_filter['warna'])) $parts[] = implode('/', $b->syarat_filter['warna']);
+                if (!empty($b->syarat_filter['merek'])) $parts[] = implode('/', $b->syarat_filter['merek']);
+                if (!empty($b->syarat_filter['tipe'])) $parts[] = implode('/', $b->syarat_filter['tipe']);
                 if (!empty($b->syarat_filter['transmisi'])) $parts[] = $b->syarat_filter['transmisi'];
                 if (!empty($parts)) $aturanLabel = implode(', ', $parts);
             }
@@ -217,6 +225,13 @@ class ZonaController extends Controller
 
         if ($request->filled('syarat_warna')) {
             $syarat['warna'] = array_filter((array) $request->syarat_warna);
+        }
+        if ($request->filled('syarat_merek')) {
+            $syarat['merek'] = array_filter((array) $request->syarat_merek);
+        }
+        if ($request->filled('syarat_tipe') && trim($request->syarat_tipe) !== '') {
+            $tipeArr = array_map('trim', explode(',', $request->syarat_tipe));
+            $syarat['tipe'] = array_values(array_filter($tipeArr));
         }
         if ($request->filled('syarat_transmisi') && $request->syarat_transmisi !== '') {
             $syarat['transmisi'] = $request->syarat_transmisi;

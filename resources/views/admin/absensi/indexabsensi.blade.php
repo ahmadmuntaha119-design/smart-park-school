@@ -8,31 +8,33 @@
         ============================================================ --}}
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 gap-3">
             <div>
-                <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight" style="color: #2d241e;">Radar Parkir Harian</h2>
-                <p class="text-xs sm:text-sm font-medium mt-0.5" style="color: #7a6b61;">Pantau pergerakan masuk dan keluar kendaraan siswa secara <em>Real-Time</em>.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight" style="color: var(--on-s);">Radar Parkir Harian</h2>
+                <p class="text-xs sm:text-sm font-medium mt-0.5" style="color: var(--on-v);">Pantau pergerakan masuk dan keluar kendaraan siswa secara <em>Real-Time</em>.</p>
             </div>
 
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto">
                 {{-- Live Clock WIB --}}
-                <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl font-mono" style="background: #2d241e; box-shadow: 0 4px 14px rgba(45,36,30,0.3);">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
-                    <span class="font-extrabold text-sm text-white tracking-widest" x-text="currentTime"></span>
-                    <span class="text-[10px] font-bold text-amber-400">WIB</span>
+                <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl font-mono border" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1);">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
+                    <span class="font-extrabold text-sm tracking-widest" style="color: var(--on-s);" x-text="currentTime"></span>
+                    <span class="text-[10px] font-bold" style="color: var(--on-v);">WIB</span>
                 </div>
 
                 {{-- Filter Tanggal --}}
                 <form action="{{ route('admin.absensi.index') }}" method="GET"
-                      class="flex items-center overflow-hidden w-full sm:w-auto"
-                      style="background: white; border: 1.5px solid #e8e1d7; border-radius: 0.75rem;">
-                    <span class="material-icons pl-3 text-[18px] flex-shrink-0" style="color: #a89b91;">calendar_month</span>
+                      class="flex items-center overflow-hidden w-full sm:w-auto rounded-xl border transition-colors"
+                      style="background: rgba(255,255,255,0.02); border-color: var(--outline-v);"
+                      onfocusin="this.style.borderColor='rgba(255,255,255,0.3)'"
+                      onfocusout="this.style.borderColor='var(--outline-v)'">
+                    <span class="material-icons pl-3 text-[18px] flex-shrink-0" style="color: var(--on-v);">calendar_month</span>
                     <input type="date" name="tanggal" value="{{ $tanggalPilihan }}"
-                           class="border-0 bg-transparent text-xs font-bold focus:ring-0 cursor-pointer px-2 py-2.5 flex-1"
-                           style="color: #2d241e; outline:none;">
+                           class="border-0 bg-transparent text-xs font-bold focus:ring-0 cursor-pointer px-2 py-2.5 flex-1 appearance-none"
+                           style="color: var(--on-s); outline:none; color-scheme: dark;">
                     <button type="submit"
-                            class="px-4 py-2.5 text-xs font-extrabold text-white uppercase tracking-widest flex-shrink-0 transition-colors"
-                            style="background: #2d241e; border-radius: 0 0.65rem 0.65rem 0;"
-                            onmouseenter="this.style.background='#c2652a'"
-                            onmouseleave="this.style.background='#2d241e'">
+                            class="px-4 py-2.5 text-xs font-extrabold uppercase tracking-widest flex-shrink-0 transition-colors"
+                            style="background: white; color: black;"
+                            onmouseenter="this.style.background='#e4e4e7'"
+                            onmouseleave="this.style.background='white'">
                         Sorot
                     </button>
                 </form>
@@ -46,18 +48,18 @@
 
             {{-- TOTAL MASUK (Dark Sahara) --}}
             <div @click="setFilter('semua')"
-                 class="cursor-pointer rounded-2xl p-5 text-white relative overflow-hidden transition-all duration-200 flex flex-col justify-between min-h-[130px]"
-                 style="background: linear-gradient(135deg, #2d241e 0%, #1a1614 100%); box-shadow: 0 8px 24px rgba(45,36,30,0.35);"
-                 :class="activeFilter === 'semua' ? 'ring-2 ring-offset-1 ring-amber-400 scale-[1.02]' : ''">
-                <div class="absolute -right-5 -bottom-5 opacity-10 pointer-events-none">
-                    <span class="material-icons text-[100px]">two_wheeler</span>
+                 class="cursor-pointer rounded-2xl p-5 relative overflow-hidden transition-all duration-200 flex flex-col justify-between min-h-[130px] border"
+                 style="background: var(--sl2); border-color: var(--outline-v);"
+                 :class="activeFilter === 'semua' ? 'ring-1 ring-offset-0 ring-white scale-[1.02]' : ''">
+                <div class="absolute -right-5 -bottom-5 opacity-[0.03] pointer-events-none">
+                    <span class="material-icons text-[100px]" style="color: var(--on-s);">two_wheeler</span>
                 </div>
                 <div>
-                    <p class="text-[9px] font-extrabold tracking-widest uppercase mb-1" style="color: #a89b91;">Total Kendaraan Masuk</p>
-                    <h3 class="text-4xl sm:text-5xl font-extrabold leading-none">{{ $totalMasuk }}</h3>
-                    <span class="text-sm font-bold" style="color: #7a6b61;">Motor</span>
+                    <p class="text-[9px] font-extrabold tracking-widest uppercase mb-1" style="color: var(--on-v);">Total Kendaraan Masuk</p>
+                    <h3 class="text-4xl sm:text-5xl font-extrabold leading-none" style="color: var(--on-s);">{{ $totalMasuk }}</h3>
+                    <span class="text-sm font-bold" style="color: var(--on-v);">Motor</span>
                 </div>
-                <p class="text-[10px] font-extrabold mt-3 flex items-center gap-1" style="color: #a89b91;">
+                <p class="text-[10px] font-extrabold mt-3 flex items-center gap-1" style="color: var(--on-v);">
                     <span class="material-icons text-[12px]">filter_alt</span>
                     Klik lihat semua
                 </p>
@@ -65,18 +67,18 @@
 
             {{-- MASIH PARKIR (Emerald) --}}
             <div @click="setFilter('parkir')"
-                 class="cursor-pointer rounded-2xl p-5 text-white relative overflow-hidden transition-all duration-200 flex flex-col justify-between min-h-[130px]"
-                 style="background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 8px 24px rgba(5,150,105,0.35);"
-                 :class="activeFilter === 'parkir' ? 'ring-2 ring-offset-1 ring-emerald-300 scale-[1.02]' : ''">
-                <div class="absolute -right-5 -bottom-5 opacity-15 animate-pulse pointer-events-none">
-                    <span class="material-icons text-[100px]">sensors</span>
+                 class="cursor-pointer rounded-2xl p-5 relative overflow-hidden transition-all duration-200 flex flex-col justify-between min-h-[130px] border"
+                 style="background: var(--sl2); border-color: rgba(16,185,129,0.3);"
+                 :class="activeFilter === 'parkir' ? 'ring-1 ring-offset-0 ring-emerald-500 scale-[1.02]' : ''">
+                <div class="absolute -right-5 -bottom-5 opacity-10 animate-pulse pointer-events-none">
+                    <span class="material-icons text-[100px] text-emerald-500">sensors</span>
                 </div>
                 <div>
-                    <p class="text-[9px] font-extrabold tracking-widest uppercase mb-1 text-emerald-200">Masih Di Sekolah</p>
-                    <h3 class="text-4xl sm:text-5xl font-extrabold leading-none">{{ $totalMasihParkir }}</h3>
-                    <span class="text-sm font-bold text-emerald-200">Motor Aktif</span>
+                    <p class="text-[9px] font-extrabold tracking-widest uppercase mb-1 text-emerald-400">Masih Di Sekolah</p>
+                    <h3 class="text-4xl sm:text-5xl font-extrabold leading-none" style="color: var(--on-s);">{{ $totalMasihParkir }}</h3>
+                    <span class="text-sm font-bold text-emerald-400">Motor Aktif</span>
                 </div>
-                <p class="text-[10px] font-extrabold mt-3 flex items-center gap-1 text-emerald-200">
+                <p class="text-[10px] font-extrabold mt-3 flex items-center gap-1 text-emerald-500">
                     <span class="material-icons text-[12px]">filter_alt</span>
                     Klik untuk filter
                 </p>
@@ -84,18 +86,18 @@
 
             {{-- SUDAH PULANG (Neutral Warm) --}}
             <div @click="setFilter('pulang')"
-                 class="cursor-pointer rounded-2xl p-5 text-white relative overflow-hidden transition-all duration-200 flex flex-col justify-between min-h-[130px]"
-                 style="background: linear-gradient(135deg, #7a6b61 0%, #5a4b41 100%); box-shadow: 0 8px 24px rgba(122,107,97,0.3);"
-                 :class="activeFilter === 'pulang' ? 'ring-2 ring-offset-1 ring-stone-300 scale-[1.02]' : ''">
-                <div class="absolute -right-5 -bottom-5 opacity-10 pointer-events-none">
-                    <span class="material-icons text-[100px]">home</span>
+                 class="cursor-pointer rounded-2xl p-5 relative overflow-hidden transition-all duration-200 flex flex-col justify-between min-h-[130px] border"
+                 style="background: var(--sl2); border-color: var(--outline-v);"
+                 :class="activeFilter === 'pulang' ? 'ring-1 ring-offset-0 ring-zinc-500 scale-[1.02]' : ''">
+                <div class="absolute -right-5 -bottom-5 opacity-[0.03] pointer-events-none">
+                    <span class="material-icons text-[100px]" style="color: var(--on-s);">home</span>
                 </div>
                 <div>
-                    <p class="text-[9px] font-extrabold tracking-widest uppercase mb-1 text-stone-300">Telah Pulang</p>
-                    <h3 class="text-4xl sm:text-5xl font-extrabold leading-none">{{ $totalSudahPulang }}</h3>
-                    <span class="text-sm font-bold text-stone-300">Motor</span>
+                    <p class="text-[9px] font-extrabold tracking-widest uppercase mb-1" style="color: var(--on-v);">Telah Pulang</p>
+                    <h3 class="text-4xl sm:text-5xl font-extrabold leading-none" style="color: var(--on-s);">{{ $totalSudahPulang }}</h3>
+                    <span class="text-sm font-bold" style="color: var(--on-v);">Motor</span>
                 </div>
-                <p class="text-[10px] font-extrabold mt-3 flex items-center gap-1 text-stone-300">
+                <p class="text-[10px] font-extrabold mt-3 flex items-center gap-1" style="color: var(--on-v);">
                     <span class="material-icons text-[12px]">filter_alt</span>
                     Klik untuk filter
                 </p>
@@ -105,28 +107,28 @@
         {{-- ============================================================
              TABLE PANEL + SMART FILTERS
         ============================================================ --}}
-        <div class="bg-white rounded-2xl border overflow-hidden" style="border-color: #e8e1d7;">
+        <div class="rounded-2xl border overflow-hidden" style="background: var(--sl2); border-color: var(--outline-v);">
 
             {{-- Panel Header --}}
-            <div class="px-4 sm:px-6 py-4 border-b" style="border-color: #f0ebe4; background: #faf8f5;">
+            <div class="px-4 sm:px-6 py-4 border-b" style="border-color: var(--outline-v); background: transparent;">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-3">
                     <div>
-                        <h3 class="text-sm sm:text-base font-extrabold" style="color: #2d241e;">
+                        <h3 class="text-sm sm:text-base font-extrabold" style="color: var(--on-s);">
                             Daftar Log Absensi
-                            <span class="font-medium" style="color: #a89b91;">({{ \Carbon\Carbon::parse($tanggalPilihan)->translatedFormat('d F Y') }})</span>
+                            <span class="font-medium" style="color: var(--on-v);">({{ \Carbon\Carbon::parse($tanggalPilihan)->translatedFormat('d F Y') }})</span>
                         </h3>
-                        <p class="text-xs font-medium mt-0.5" style="color: #a89b91;">
+                        <p class="text-xs font-medium mt-0.5" style="color: var(--on-v);">
                             <span x-text="visibleCount">0</span> entri ditampilkan
                         </p>
                     </div>
 
                     {{-- Tab Status Filter --}}
-                    <div class="flex items-center gap-1 p-1 rounded-xl flex-shrink-0" style="background: #f0ebe4;">
+                    <div class="flex items-center gap-1 p-1 rounded-xl flex-shrink-0 border" style="background: rgba(255,255,255,0.02); border-color: var(--outline-v);">
                         <button @click="setFilter('semua')"
                                 class="px-3 py-1.5 text-xs font-extrabold rounded-lg transition-all"
                                 :class="activeFilter === 'semua'
-                                    ? 'bg-[#2d241e] text-white shadow-sm'
-                                    : 'text-[#7a6b61] hover:text-[#2d241e]'">
+                                    ? 'bg-white text-black shadow-sm'
+                                    : 'text-[var(--on-v)] hover:text-[var(--on-s)]'">
                             Semua
                             <span class="ml-1 text-[10px]">{{ $totalMasuk }}</span>
                         </button>
@@ -134,7 +136,7 @@
                                 class="px-3 py-1.5 text-xs font-extrabold rounded-lg transition-all"
                                 :class="activeFilter === 'parkir'
                                     ? 'bg-emerald-600 text-white shadow-sm'
-                                    : 'text-[#7a6b61] hover:text-[#2d241e]'">
+                                    : 'text-[var(--on-v)] hover:text-[var(--on-s)]'">
                             <span class="inline-flex items-center gap-1">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"
                                       :class="activeFilter === 'parkir' ? '' : 'bg-emerald-500'"></span>
@@ -145,9 +147,8 @@
                         <button @click="setFilter('pulang')"
                                 class="px-3 py-1.5 text-xs font-extrabold rounded-lg transition-all"
                                 :class="activeFilter === 'pulang'
-                                    ? 'text-white shadow-sm'
-                                    : 'text-[#7a6b61] hover:text-[#2d241e]'"
-                                :style="activeFilter === 'pulang' ? 'background: #7a6b61;' : ''">
+                                    ? 'text-white shadow-sm bg-zinc-700'
+                                    : 'text-[var(--on-v)] hover:text-[var(--on-s)]'">
                             Pulang
                             <span class="ml-1 text-[10px]">{{ $totalSudahPulang }}</span>
                         </button>
@@ -160,46 +161,48 @@
                     {{-- Global Search --}}
                     <div class="relative flex-1 min-w-[160px]">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="material-icons text-[16px]" style="color: #a89b91;">search</span>
+                            <span class="material-icons text-[16px]" style="color: var(--on-v);">search</span>
                         </div>
                         <input type="text" x-model="searchQuery" @input="applyFilters()"
                                placeholder="Cari nama, NIS, plat..."
-                               class="block w-full pl-8 pr-3 py-2 rounded-xl text-xs font-semibold transition-colors"
-                               style="background: white; border: 1.5px solid #e8e1d7; color: #2d241e; outline: none;"
-                               onfocus="this.style.borderColor='#c2652a'"
-                               onblur="this.style.borderColor='#e8e1d7'">
+                               class="block w-full pl-8 pr-3 py-2 rounded-xl text-xs font-semibold transition-colors outline-none"
+                               style="background: rgba(255,255,255,0.02); border: 1px solid var(--outline-v); color: var(--on-s);"
+                               onfocus="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.05)'"
+                               onblur="this.style.borderColor='var(--outline-v)'; this.style.background='rgba(255,255,255,0.02)'">
                     </div>
 
                     {{-- Filter Kelas --}}
                     <select x-model="filterKelas" @change="applyFilters()"
-                            class="text-xs font-bold px-3 py-2 rounded-xl cursor-pointer transition-colors"
-                            style="background: white; border: 1.5px solid #e8e1d7; color: #7a6b61; outline: none;"
-                            onfocus="this.style.borderColor='#c2652a'"
-                            onblur="this.style.borderColor='#e8e1d7'">
-                        <option value="">Semua Kelas</option>
+                            class="text-xs font-bold px-3 py-2 rounded-xl cursor-pointer transition-colors outline-none"
+                            style="background: rgba(255,255,255,0.02); border: 1px solid var(--outline-v); color: var(--on-s);"
+                            onfocus="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.05)'"
+                            onblur="this.style.borderColor='var(--outline-v)'; this.style.background='rgba(255,255,255,0.02)'">
+                        <option value="" style="background: var(--sl2); color: var(--on-s);">Semua Kelas</option>
                         @foreach($absensis->map(fn($a) => optional($a->user)->kelas)->filter()->unique()->sort() as $kls)
-                            <option value="{{ $kls }}">{{ $kls }}</option>
+                            <option value="{{ $kls }}" style="background: var(--sl2); color: var(--on-s);">{{ $kls }}</option>
                         @endforeach
                     </select>
 
                     {{-- Filter Zona --}}
                     <select x-model="filterZona" @change="applyFilters()"
-                            class="text-xs font-bold px-3 py-2 rounded-xl cursor-pointer transition-colors"
-                            style="background: white; border: 1.5px solid #e8e1d7; color: #7a6b61; outline: none;"
-                            onfocus="this.style.borderColor='#c2652a'"
-                            onblur="this.style.borderColor='#e8e1d7'">
-                        <option value="">Semua Zona</option>
-                        <option value="belum">Belum Ada Zona</option>
+                            class="text-xs font-bold px-3 py-2 rounded-xl cursor-pointer transition-colors outline-none"
+                            style="background: rgba(255,255,255,0.02); border: 1px solid var(--outline-v); color: var(--on-s);"
+                            onfocus="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.05)'"
+                            onblur="this.style.borderColor='var(--outline-v)'; this.style.background='rgba(255,255,255,0.02)'">
+                        <option value="" style="background: var(--sl2); color: var(--on-s);">Semua Zona</option>
+                        <option value="belum" style="background: var(--sl2); color: var(--on-s);">Belum Ada Zona</option>
                         @foreach($absensis->map(fn($a) => optional(optional($a->user)->kendaraan)->zona)->filter()->unique('id') as $z)
-                            <option value="{{ $z->nama_zona }}">Zona {{ $z->nama_zona }}</option>
+                            <option value="{{ $z->nama_zona }}" style="background: var(--sl2); color: var(--on-s);">Zona {{ $z->nama_zona }}</option>
                         @endforeach
                     </select>
 
                     {{-- Reset Button (hanya muncul kalau ada filter aktif) --}}
                     <button @click="resetFilters()"
                             x-show="searchQuery || filterKelas || filterZona"
-                            class="text-[10px] font-extrabold px-3 py-2 rounded-xl flex items-center gap-1 flex-shrink-0 transition-colors"
-                            style="background: rgba(194,101,42,0.08); color: #c2652a; border: 1.5px solid rgba(194,101,42,0.2);">
+                            class="text-[10px] font-extrabold px-3 py-2 rounded-xl flex items-center gap-1 flex-shrink-0 transition-colors border"
+                            style="background: rgba(255,255,255,0.05); color: var(--on-v); border-color: rgba(255,255,255,0.1);"
+                            onmouseover="this.style.color='var(--on-s)'; this.style.background='rgba(255,255,255,0.1)'"
+                            onmouseout="this.style.color='var(--on-v)'; this.style.background='rgba(255,255,255,0.05)'">
                         <span class="material-icons text-[13px]">filter_alt_off</span>
                         Reset
                     </button>
@@ -213,7 +216,7 @@
                 <div class="max-h-[600px] overflow-y-auto">
                     <table class="w-full text-sm text-left">
                         <thead class="text-[10px] uppercase tracking-widest sticky top-0 z-10"
-                               style="color: #a89b91; background: #faf8f5; border-bottom: 1.5px solid #f0ebe4;">
+                               style="color: var(--on-v); background: var(--sl2); border-bottom: 1px solid var(--outline-v);">
                             <tr>
                                 <th class="px-6 py-3.5 font-extrabold">Identitas Siswa</th>
                                 <th class="px-6 py-3.5 font-extrabold">Kendaraan & Zona</th>
@@ -223,7 +226,7 @@
                                 <th class="px-6 py-3.5 font-extrabold text-center">Status</th>
                             </tr>
                         </thead>
-                        <tbody style="color: #2d241e;">
+                        <tbody style="color: var(--on-s);">
                             @forelse($absensis as $absen)
                                 @php
                                     $statusAbsen = $absen->waktu_keluar ? 'pulang' : 'parkir';
@@ -234,23 +237,23 @@
                                     $platAbsen   = strtolower(optional(optional($absen->user)->kendaraan)->plat_nomor ?? '');
                                 @endphp
                                 <tr class="border-b baris-absensi transition-colors"
-                                    style="border-color: #f0ebe4; {{ $statusAbsen === 'parkir' ? 'border-left: 3px solid #059669;' : '' }}"
+                                    style="border-color: var(--outline-v); {{ $statusAbsen === 'parkir' ? 'border-left: 3px solid #059669;' : '' }}"
                                     data-status="{{ $statusAbsen }}"
                                     data-kelas="{{ $kelasAbsen }}"
                                     data-zona="{{ strtolower($zonaAbsen) }}"
                                     data-nama="{{ $namaAbsen }}"
                                     data-nis="{{ $nisAbsen }}"
                                     data-plat="{{ $platAbsen }}"
-                                    onmouseenter="this.style.background='#faf8f5'"
-                                    onmouseleave="this.style.background='white'">
+                                    onmouseenter="this.style.background='rgba(255,255,255,0.02)'"
+                                    onmouseleave="this.style.background='transparent'">
 
                                     {{-- Identitas --}}
                                     <td class="px-6 py-4">
                                         <p class="font-extrabold text-sm">{{ optional($absen->user)->nama_lengkap ?? '-' }}</p>
-                                        <p class="text-xs font-bold mt-0.5" style="color: #a89b91;">{{ optional($absen->user)->nis_nip ?? '-' }}</p>
+                                        <p class="text-xs font-bold mt-0.5" style="color: var(--on-v);">{{ optional($absen->user)->nis_nip ?? '-' }}</p>
                                         @if($kelasAbsen)
                                             <span class="inline-block mt-1 text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md"
-                                                  style="background: rgba(194,101,42,0.08); color: #c2652a;">{{ $kelasAbsen }}</span>
+                                                  style="background: rgba(255,255,255,0.05); color: var(--on-v);">{{ $kelasAbsen }}</span>
                                         @endif
                                     </td>
 
@@ -262,33 +265,33 @@
                                                 <div class="flex items-center gap-1.5 mt-1">
                                                     <span class="w-2 h-2 rounded-full flex-shrink-0"
                                                           style="background-color: {{ $absen->user->kendaraan->zona->kode_warna }}"></span>
-                                                    <span class="text-xs font-bold" style="color: #7a6b61;">
+                                                    <span class="text-xs font-bold" style="color: var(--on-v);">
                                                         Zona {{ $absen->user->kendaraan->zona->nama_zona }}
                                                     </span>
                                                 </div>
                                             @else
-                                                <span class="text-[10px] font-extrabold mt-1 inline-block" style="color: #c2652a;">Belum Ada Zona</span>
+                                                <span class="text-[10px] font-extrabold mt-1 inline-block" style="color: var(--on-v);">Belum Ada Zona</span>
                                             @endif
                                         @else
-                                            <span class="text-xs font-bold" style="color: #a89b91;">Data tidak ditemukan</span>
+                                            <span class="text-xs font-bold" style="color: var(--on-v);">Data tidak ditemukan</span>
                                         @endif
                                     </td>
 
                                     {{-- Waktu Masuk --}}
                                     <td class="px-6 py-4 text-center">
-                                        <p class="font-extrabold text-lg leading-none" style="color: #c2652a;">
+                                        <p class="font-extrabold text-lg leading-none" style="color: var(--on-s);">
                                             {{ $absen->waktu_masuk ? $absen->waktu_masuk->format('H:i') : '-' }}
                                         </p>
-                                        <p class="text-[10px] font-bold mt-0.5" style="color: #a89b91;">WIB</p>
+                                        <p class="text-[10px] font-bold mt-0.5" style="color: var(--on-v);">WIB</p>
                                     </td>
 
                                     {{-- Waktu Keluar --}}
                                     <td class="px-6 py-4 text-center">
                                         @if($absen->waktu_keluar)
-                                            <p class="font-extrabold text-lg leading-none" style="color: #2d241e;">{{ $absen->waktu_keluar->format('H:i') }}</p>
-                                            <p class="text-[10px] font-bold mt-0.5" style="color: #a89b91;">WIB</p>
+                                            <p class="font-extrabold text-lg leading-none" style="color: var(--on-s);">{{ $absen->waktu_keluar->format('H:i') }}</p>
+                                            <p class="text-[10px] font-bold mt-0.5" style="color: var(--on-v);">WIB</p>
                                         @else
-                                            <span class="inline-flex items-center gap-1.5 text-emerald-600 font-bold text-xs">
+                                            <span class="inline-flex items-center gap-1.5 text-emerald-400 font-bold text-xs">
                                                 <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                                                 Masih di sini
                                             </span>
@@ -303,9 +306,9 @@
                                                 $jam    = intdiv($durasi, 60);
                                                 $menit  = $durasi % 60;
                                             @endphp
-                                            <span class="font-extrabold text-sm" style="color: #2d241e;">{{ $jam > 0 ? $jam.'j ' : '' }}{{ $menit }}m</span>
+                                            <span class="font-extrabold text-sm" style="color: var(--on-s);">{{ $jam > 0 ? $jam.'j ' : '' }}{{ $menit }}m</span>
                                         @else
-                                            <span style="color: #e8e1d7;">—</span>
+                                            <span style="color: var(--outline-v);">—</span>
                                         @endif
                                     </td>
 
@@ -316,30 +319,30 @@
                                                     @click="$dispatch('open-bukti', { src: '{{ Storage::url($absen->foto_bukti_masuk) }}', jarak: '{{ $absen->jarak_dari_sekolah ? number_format($absen->jarak_dari_sekolah, 0, ',', '.') . 'm' : 'GPS tidak aktif' }}' })"
                                                     class="mx-auto flex flex-col items-center gap-1 group">
                                                 <img src="{{ Storage::url($absen->foto_bukti_masuk) }}"
-                                                     class="w-10 h-10 rounded-lg object-cover border-2 border-transparent group-hover:border-amber-400 transition-all shadow"
+                                                     class="w-10 h-10 rounded-lg object-cover border-2 border-transparent group-hover:border-emerald-500 transition-all shadow"
                                                      alt="Bukti">
                                                 @if($absen->jarak_dari_sekolah)
-                                                    <span class="text-[9px] font-extrabold" style="color:#059669;">{{ number_format($absen->jarak_dari_sekolah, 0, ',', '.') }}m ✓</span>
+                                                    <span class="text-[9px] font-extrabold text-emerald-400">{{ number_format($absen->jarak_dari_sekolah, 0, ',', '.') }}m ✓</span>
                                                 @endif
                                             </button>
                                         @elseif($absen->jarak_dari_sekolah)
-                                            <span class="text-[10px] font-bold" style="color:#059669;">{{ number_format($absen->jarak_dari_sekolah, 0, ',', '.') }}m ✓</span>
+                                            <span class="text-[10px] font-bold text-emerald-400">{{ number_format($absen->jarak_dari_sekolah, 0, ',', '.') }}m ✓</span>
                                         @else
-                                            <span style="color:#e8e1d7; font-size:18px;" class="material-icons">image_not_supported</span>
+                                            <span style="color:var(--outline-v); font-size:18px;" class="material-icons">image_not_supported</span>
                                         @endif
                                     </td>
 
                                     {{-- Status Badge --}}
                                     <td class="px-6 py-4 text-center">
                                         @if($absen->waktu_keluar)
-                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase"
-                                                  style="background: #faf8f5; color: #7a6b61; border: 1.5px solid #e8e1d7;">
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase border"
+                                                  style="background: rgba(255,255,255,0.02); color: var(--on-v); border-color: var(--outline-v);">
                                                 <span class="material-icons text-[12px]">done</span>
                                                 Selesai
                                             </span>
                                         @else
-                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase"
-                                                  style="background: #f0fdf4; color: #166534; border: 1.5px solid #86efac;">
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase border"
+                                                  style="background: rgba(16,185,129,0.1); color: #34d399; border-color: rgba(16,185,129,0.2);">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                                                 Parkir
                                             </span>
@@ -348,10 +351,10 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="py-20 text-center">
-                                        <span class="material-icons text-[56px] block mx-auto mb-3" style="color: #e8e1d7;">schedule</span>
-                                        <p class="font-extrabold text-lg" style="color: #a89b91;">Belum Ada Pergerakan</p>
-                                        <p class="text-sm font-medium mt-1" style="color: #a89b91;">Belum ada motor yang masuk parkiran pada tanggal ini.</p>
+                                    <td colspan="6" class="py-20 text-center border-b" style="border-color: var(--outline-v);">
+                                        <span class="material-icons text-[56px] block mx-auto mb-3" style="color: var(--outline-v);">schedule</span>
+                                        <p class="font-extrabold text-lg" style="color: var(--on-s);">Belum Ada Pergerakan</p>
+                                        <p class="text-sm font-medium mt-1" style="color: var(--on-v);">Belum ada motor yang masuk parkiran pada tanggal ini.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -361,10 +364,10 @@
 
                 {{-- Empty state saat filter aktif tapi tidak ada yg cocok --}}
                 <div x-show="visibleCount === 0 && {{ $totalMasuk }} > 0" x-transition class="py-14 text-center px-6">
-                    <span class="material-icons text-[48px] block mx-auto mb-3" style="color: #e8e1d7;">manage_search</span>
-                    <p class="font-extrabold" style="color: #a89b91;">Tidak ada data yang cocok dengan filter ini.</p>
+                    <span class="material-icons text-[48px] block mx-auto mb-3" style="color: var(--outline-v);">manage_search</span>
+                    <p class="font-extrabold" style="color: var(--on-s);">Tidak ada data yang cocok dengan filter ini.</p>
                     <button @click="resetFilters(); setFilter('semua')"
-                            class="mt-3 text-xs font-extrabold underline" style="color: #c2652a;">
+                            class="mt-3 text-xs font-extrabold underline" style="color: var(--on-v);">
                         Reset Semua Filter
                     </button>
                 </div>
@@ -373,7 +376,7 @@
             {{-- ============================================================
                  MOBILE CARD LIST
             ============================================================ --}}
-            <div class="md:hidden divide-y" style="border-color: #f0ebe4; max-height: 65vh; overflow-y: auto;">
+            <div class="md:hidden divide-y" style="border-color: var(--outline-v); max-height: 65vh; overflow-y: auto;">
                 @forelse($absensis as $absen)
                     @php
                         $statusAbsenM = $absen->waktu_keluar ? 'pulang' : 'parkir';
@@ -394,27 +397,27 @@
 
                         <div class="flex justify-between items-start gap-3">
                             <div class="min-w-0">
-                                <p class="font-extrabold text-sm leading-tight truncate" style="color: #2d241e;">
+                                <p class="font-extrabold text-sm leading-tight truncate" style="color: var(--on-s);">
                                     {{ optional($absen->user)->nama_lengkap ?? '-' }}
                                 </p>
-                                <p class="text-xs font-bold mt-0.5" style="color: #a89b91;">
+                                <p class="text-xs font-bold mt-0.5" style="color: var(--on-v);">
                                     {{ optional($absen->user)->nis_nip ?? '-' }}
                                 </p>
                                 @if($kelasAbsenM)
                                     <span class="inline-block mt-1 text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded"
-                                          style="background: rgba(194,101,42,0.08); color: #c2652a;">{{ $kelasAbsenM }}</span>
+                                          style="background: rgba(255,255,255,0.05); color: var(--on-v);">{{ $kelasAbsenM }}</span>
                                 @endif
                             </div>
 
                             {{-- Status --}}
                             @if($absen->waktu_keluar)
-                                <span class="flex-shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-extrabold"
-                                      style="background: #faf8f5; color: #7a6b61; border: 1px solid #e8e1d7;">
+                                <span class="flex-shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-extrabold border"
+                                      style="background: rgba(255,255,255,0.02); color: var(--on-v); border-color: var(--outline-v);">
                                     <span class="material-icons text-[11px]">done</span> Selesai
                                 </span>
                             @else
-                                <span class="flex-shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-extrabold"
-                                      style="background: #f0fdf4; color: #166534; border: 1px solid #86efac;">
+                                <span class="flex-shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-extrabold border"
+                                      style="background: rgba(16,185,129,0.1); color: #34d399; border-color: rgba(16,185,129,0.2);">
                                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Masih Parkir
                                 </span>
                             @endif
@@ -422,24 +425,24 @@
 
                         {{-- Metric Row --}}
                         <div class="grid grid-cols-3 gap-2 mt-3">
-                            <div class="rounded-xl p-2 text-center" style="background: #faf8f5; border: 1px solid #f0ebe4;">
-                                <p class="text-[9px] font-extrabold uppercase tracking-wider mb-0.5" style="color: #a89b91;">Plat</p>
-                                <p class="font-extrabold text-xs uppercase tracking-widest" style="color: #2d241e;">
+                            <div class="rounded-xl p-2 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid var(--outline-v);">
+                                <p class="text-[9px] font-extrabold uppercase tracking-wider mb-0.5" style="color: var(--on-v);">Plat</p>
+                                <p class="font-extrabold text-xs uppercase tracking-widest" style="color: var(--on-s);">
                                     {{ optional(optional($absen->user)->kendaraan)->plat_nomor ?? '-' }}
                                 </p>
                             </div>
-                            <div class="rounded-xl p-2 text-center" style="background: rgba(194,101,42,0.05); border: 1px solid rgba(194,101,42,0.15);">
-                                <p class="text-[9px] font-extrabold uppercase tracking-wider mb-0.5" style="color: #a89b91;">Masuk</p>
-                                <p class="font-extrabold text-sm leading-none" style="color: #c2652a;">
+                            <div class="rounded-xl p-2 text-center" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                                <p class="text-[9px] font-extrabold uppercase tracking-wider mb-0.5" style="color: var(--on-v);">Masuk</p>
+                                <p class="font-extrabold text-sm leading-none" style="color: var(--on-s);">
                                     {{ $absen->waktu_masuk ? $absen->waktu_masuk->format('H:i') : '-' }}
                                 </p>
                             </div>
-                            <div class="rounded-xl p-2 text-center" style="background: #faf8f5; border: 1px solid #f0ebe4;">
-                                <p class="text-[9px] font-extrabold uppercase tracking-wider mb-0.5" style="color: #a89b91;">Keluar</p>
+                            <div class="rounded-xl p-2 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid var(--outline-v);">
+                                <p class="text-[9px] font-extrabold uppercase tracking-wider mb-0.5" style="color: var(--on-v);">Keluar</p>
                                 @if($absen->waktu_keluar)
-                                    <p class="font-extrabold text-sm leading-none" style="color: #2d241e;">{{ $absen->waktu_keluar->format('H:i') }}</p>
+                                    <p class="font-extrabold text-sm leading-none" style="color: var(--on-s);">{{ $absen->waktu_keluar->format('H:i') }}</p>
                                 @else
-                                    <p class="font-extrabold text-xs text-emerald-600 leading-none">—</p>
+                                    <p class="font-extrabold text-xs text-emerald-400 leading-none">—</p>
                                 @endif
                             </div>
                         </div>
@@ -449,7 +452,7 @@
                             <div class="flex items-center gap-1.5 mt-2">
                                 <span class="w-2.5 h-2.5 rounded-full flex-shrink-0"
                                       style="background-color: {{ $absen->user->kendaraan->zona->kode_warna }}"></span>
-                                <span class="text-[10px] font-bold" style="color: #7a6b61;">
+                                <span class="text-[10px] font-bold" style="color: var(--on-v);">
                                     Zona {{ $absen->user->kendaraan->zona->nama_zona }}
                                 </span>
                             </div>
@@ -457,17 +460,17 @@
                     </div>
                 @empty
                     <div class="py-16 text-center">
-                        <span class="material-icons text-[48px] block mx-auto mb-3" style="color: #e8e1d7;">schedule</span>
-                        <p class="font-extrabold" style="color: #a89b91;">Belum Ada Pergerakan</p>
+                        <span class="material-icons text-[48px] block mx-auto mb-3" style="color: var(--outline-v);">schedule</span>
+                        <p class="font-extrabold" style="color: var(--on-s);">Belum Ada Pergerakan</p>
                     </div>
                 @endforelse
 
                 {{-- Mobile empty state filter --}}
                 <div x-show="visibleCount === 0 && {{ $totalMasuk }} > 0" x-transition class="py-12 text-center px-6">
-                    <span class="material-icons text-[32px] block mx-auto mb-2" style="color: #e8e1d7;">manage_search</span>
-                    <p class="font-extrabold text-sm" style="color: #a89b91;">Tidak ada data cocok.</p>
+                    <span class="material-icons text-[32px] block mx-auto mb-2" style="color: var(--outline-v);">manage_search</span>
+                    <p class="font-extrabold text-sm" style="color: var(--on-s);">Tidak ada data cocok.</p>
                     <button @click="resetFilters(); setFilter('semua')"
-                            class="mt-2 text-xs font-extrabold underline" style="color: #c2652a;">
+                            class="mt-2 text-xs font-extrabold underline" style="color: var(--on-v);">
                         Reset Filter
                     </button>
                 </div>

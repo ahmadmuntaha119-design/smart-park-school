@@ -12,19 +12,19 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
     <style>
-        /* ─── THE SILENT CURATOR — Design tokens ─── */
+        /* ─── DESIGN SYSTEM: PREMIUM MONOCHROME TECH ─── */
         :root {
-            --surface:   #f8f9fa;
-            --sl1:       #eaeff1;
-            --sl2:       #ffffff;
-            --sl-hi:     #dbe4e7;
-            --on-s:      #2b3437;
-            --on-v:      #586064;
-            --primary:   #5d5f60;
-            --primary-c: #e2e2e3;
-            --tertiary:  #4c6175;
-            --outline-v: #abb3b7;
-            --ease-exp:  cubic-bezier(0.22, 1, 0.36, 1);
+            --surface:    #000000;
+            --sl1:        #000000;
+            --sl2:        #121212;
+            --sl-hi:      #18181b; /* zinc-900 */
+            --on-s:       #ffffff;
+            --on-v:       #a1a1aa; /* zinc-400 */
+            --primary:    #ffffff;
+            --primary-c:  rgba(255, 255, 255, 0.1);
+            --tertiary:   #e4e4e7; /* zinc-200 */
+            --outline-v:  rgba(255, 255, 255, 0.1);
+            --ease-exp:   cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -69,70 +69,94 @@
         .sc-press:active { transform: scale(0.975); opacity: 0.85; }
 
         /* Surface cards */
-        .card-l2 { background: var(--sl2); border-radius: 20px; box-shadow: 0 4px 20px rgba(43,52,55,0.04); }
-        .card-l1 { background: var(--sl1); border-radius: 16px; }
+        .card-l2 { 
+            background: var(--sl2); 
+            border-radius: 20px; 
+            border: 1px solid var(--outline-v);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4); 
+        }
+        .card-l1 { 
+            background: var(--sl1); 
+            border-radius: 16px; 
+            border: 1px solid var(--outline-v);
+        }
 
         /* Top bar */
         .top-bar {
-            background: rgba(248,249,250,0.9);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--outline-v);
         }
 
         /* Bottom nav */
         .bottom-nav {
-            background: rgba(248,249,250,0.97);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(43,52,55,0.06);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid var(--outline-v);
         }
 
-        /* Input fields — "No Box" per Silent Curator */
         .sc-input {
             width: 100%;
             padding: 12px 14px;
             border-radius: 12px;
-            border: none;
+            border: 1px solid var(--outline-v);
             outline: none;
-            background: var(--sl1);
+            background: rgba(255,255,255,0.05);
             color: var(--on-s);
             font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 400;
-            transition: background 0.2s var(--ease-exp);
+            transition: all 0.2s var(--ease-exp);
             -webkit-appearance: none;
         }
-        .sc-input:focus { background: var(--sl-hi); }
-        .sc-input::placeholder { color: var(--outline-v); }
+        .sc-input:focus { 
+            background: rgba(255,255,255,0.1); 
+            border-color: rgba(255,255,255,0.3);
+        }
+        .sc-input::placeholder { color: var(--on-v); }
 
         /* Buttons */
         .btn-primary {
-            background: var(--primary); color: #f7f8f8;
+            background: var(--primary); color: #000;
             border: none; border-radius: 14px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px; font-weight: 800;
+            padding: 13px 20px;
+            transition: all 0.25s var(--ease-exp);
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+        .btn-primary:hover { box-shadow: 0 0 30px rgba(255,255,255,0.2); background: #e4e4e7; }
+
+        .btn-secondary {
+            background: var(--sl2); color: var(--primary);
+            border: 1px solid var(--outline-v); border-radius: 14px;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             font-size: 14px; font-weight: 600;
             padding: 13px 20px;
             transition: all 0.25s var(--ease-exp);
-            box-shadow: 0 8px 24px rgba(93,95,96,0.2);
         }
-        .btn-primary:hover { box-shadow: 0 12px 32px rgba(93,95,96,0.28); }
-
-        .btn-secondary {
-            background: var(--sl1); color: var(--primary);
-            border: none; border-radius: 14px;
+        .btn-secondary:hover { background: var(--sl-hi); }
+        
+        .btn-danger {
+            background: rgba(220, 38, 38, 0.1); color: #ef4444;
+            border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 14px;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             font-size: 14px; font-weight: 600;
             padding: 13px 20px;
-            transition: background 0.25s var(--ease-exp);
+            transition: all 0.25s var(--ease-exp);
+            box-shadow: 0 0 20px rgba(220,38,38,0.1);
         }
-        .btn-secondary:hover { background: var(--sl-hi); }
+        .btn-danger:hover { background: rgba(220, 38, 38, 0.2); }
 
         /* Display font */
         .display-name { font-family: 'Manrope', sans-serif; letter-spacing: -0.02em; }
 
         /* Alert */
-        .alert-success { background: #f0fff4; color: #276749; border-radius: 14px; }
-        .alert-error   { background: #fff5f5; color: #9b2c2c; border-radius: 14px; }
+        .alert-success { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 14px; }
+        .alert-error   { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 14px; }
 
         /* Label */
         .sc-label {
@@ -297,7 +321,7 @@
                     document.querySelectorAll('input[name="tingkat"]').forEach(r => {
                         const div = r.nextElementSibling;
                         div.style.background = r.checked ? 'var(--primary)' : 'var(--sl1)';
-                        div.style.color      = r.checked ? '#f7f8f8'        : 'var(--on-v)';
+                        div.style.color      = r.checked ? '#000000'        : 'var(--on-v)';
                     });
                 };
                 radio.addEventListener('change', updateStyle);
@@ -356,6 +380,17 @@
                     <button type="submit" class="btn-secondary w-full">Simpan Password</button>
                 </form>
             </div>
+        </section>
+
+        {{-- ── BUTTON LOGOUT ── --}}
+        <section style="padding: 4px 24px 32px;">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn-danger w-full flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">logout</span>
+                    Keluar dari Sistem
+                </button>
+            </form>
         </section>
 
     </div>{{-- end app-scroll --}}

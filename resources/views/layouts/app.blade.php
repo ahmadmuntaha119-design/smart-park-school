@@ -8,10 +8,10 @@
     <!-- Memanggil CSS dan JS yang sudah di-compile oleh Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased font-sans">
+<body class="bg-black text-white antialiased font-sans">
     
     <!-- Bagian Header (Nanti bisa diganti dinamis) -->
-    <header class="bg-blue-600 shadow-md">
+    <header class="bg-[#1a1a1a] border-b border-white/10 shadow-md">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             <h1 class="text-white text-2xl font-bold">
                 Smart Park School

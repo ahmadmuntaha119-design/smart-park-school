@@ -1,216 +1,250 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-white">
+<html lang="id" class="bg-black antialiased selection:bg-white/20 selection:text-white">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Park School | Registrasi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Smart Park School | Registrasi Kendaraan</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; letter-spacing: -0.02em; }
+        
+        /* Custom Radio Button for Dark Theme */
+        input[type="radio"].dark-radio {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            position: relative;
+        }
+        input[type="radio"].dark-radio:checked {
+            border-color: #ffffff;
+            background: #ffffff;
+        }
+        input[type="radio"].dark-radio:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: #000000;
+        }
+    </style>
 </head>
-<body class="h-full">
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+<body class="min-h-screen relative overflow-x-hidden text-white bg-black">
 
-        {{-- Header --}}
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img src="{{ asset('image/logopks-removebg-preview.png') }}" alt="Smart Park School" class="h-40 w-max mx-auto" />
-            <h2 class="mt-4 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Daftar Kendaraan</h2>
-            <p class="mt-2 text-center text-sm text-gray-600">Registrasi mandiri siswa pengguna motor SMKN 1 Kebumen.</p>
-        </div>
+    {{-- Latar Belakang --}}
+    <div class="fixed inset-0 bg-black z-[-2]"></div>
+    <div class="fixed inset-0 opacity-[0.03] z-[-1]" style="background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 blur-[120px] rounded-full pointer-events-none z-[-1]"></div>
 
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-
-            {{-- Success Alert --}}
-            @if (session('success'))
-                <div class="mb-6 flex items-start gap-3 rounded-md p-4 bg-green-50 border border-green-200">
-                    <span class="material-icons text-[20px] mt-0.5 text-green-600">check_circle_outline</span>
-                    <p class="text-sm font-semibold text-green-800">{{ session('success') }}</p>
-                </div>
-            @endif
-
-            {{-- Error Alert --}}
-            @if ($errors->any())
-                <div class="mb-6 flex items-start gap-3 rounded-md p-4 bg-red-50 border border-red-200">
-                    <span class="material-icons text-[20px] mt-0.5 text-red-600">error_outline</span>
-                    <p class="text-sm font-semibold text-red-800">{{ $errors->first() }}</p>
-                </div>
-            @endif
-
-            {{-- Form --}}
-            <form action="{{ route('daftar') }}" method="POST" class="space-y-6">
-                @csrf
-
-                {{-- NIS --}}
-                <div>
-                    <label for="nis" class="block text-sm/6 font-medium text-gray-900">Nomor Induk Siswa (NIS)</label>
-                    <div class="mt-2">
-                        <input id="nis" type="text" name="nis" value="{{ old('nis') }}" required
-                            placeholder="Contoh: 17460"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2  focus:outline-yellow-600 sm:text-sm/6">
+    <div class="min-h-screen flex flex-col py-12 sm:py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="sm:mx-auto sm:w-full sm:max-w-2xl">
+            
+            <div class="bg-[#121212] border border-white/10 rounded-[32px] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+                
+                {{-- Header Form --}}
+                <div class="mb-8 text-center">
+                    <div class="w-14 h-14 mx-auto bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-5 backdrop-blur-md">
+                        <span class="material-icons-round text-[28px] text-white">two_wheeler</span>
                     </div>
+                    <h2 class="text-[26px] sm:text-[32px] font-extrabold text-white tracking-tight">Daftar Kendaraan</h2>
+                    <p class="mt-2 text-[14px] font-medium text-zinc-400">Registrasi mandiri tiket digital SMKN 1 Kebumen.</p>
                 </div>
 
-                {{-- Kelas --}}
-                <div>
-                    <label for="kelas" class="block text-sm/6 font-medium text-gray-900">Kelas</label>
-                    <div class="mt-2">
-                        <input id="kelas" type="text" name="kelas" value="{{ old('kelas') }}" required
-                            placeholder="Contoh: X PPLG 1"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2  focus:outline-yellow-600 sm:text-sm/6">
+                {{-- Success Alert --}}
+                @if (session('success'))
+                    <div class="mb-8 flex items-start gap-3 rounded-2xl p-4 bg-emerald-950/30 border border-emerald-500/20 backdrop-blur-sm">
+                        <span class="material-icons-round text-[20px] mt-0.5 text-emerald-500">check_circle_outline</span>
+                        <p class="text-[13px] font-medium text-emerald-400">{{ session('success') }}</p>
                     </div>
-                </div>
+                @endif
 
-                {{-- Merek Kendaraan --}}
-                <div x-data="searchableDropdown([
-                    @foreach($merekMotors as $m) { label: '{{ $m->nama_merek }}', value: '{{ $m->id }}' }, @endforeach
-                ], '{{ old('id_merek') }}')"
-                    @keydown.escape="open = false" @click.outside="open = false" class="relative">
-                    <label class="block text-sm/6 font-medium text-gray-900">Merek Kendaraan</label>
-                    <input type="hidden" name="id_merek" :value="selected" :required="!selected">
-                    
-                    <div class="mt-2">
-                        <button type="button" @click="open = !open" :class="open ? 'outline-2 outline-yellow-600' : 'outline-1 outline-gray-300'" class="flex w-full items-center justify-between rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline -outline-offset-1 focus:outline-2 focus:outline-yellow-600">
-                            <span :class="!selectedLabel ? 'text-gray-400' : 'text-gray-900'" x-text="selectedLabel || 'Pilih Merek Kendaraan'"></span>
-                            <span class="material-icons-round text-gray-400 text-[20px]">expand_more</span>
+                {{-- Error Alert --}}
+                @if ($errors->any())
+                    <div class="mb-8 flex items-start gap-3 rounded-2xl p-4 bg-red-950/30 border border-red-500/20 backdrop-blur-sm">
+                        <span class="material-icons-round text-[20px] mt-0.5 text-red-500">error_outline</span>
+                        <p class="text-[13px] font-medium text-red-400">{{ $errors->first() }}</p>
+                    </div>
+                @endif
+
+                {{-- Form dengan Grid 2 Kolom --}}
+                <form action="{{ route('daftar') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6">
+                    @csrf
+
+                    {{-- NIS --}}
+                    <div>
+                        <label for="nis" class="block text-[13px] font-bold text-zinc-300 mb-2">Nomor Induk Siswa (NIS)</label>
+                        <input id="nis" type="text" name="nis" value="{{ old('nis') }}" required placeholder="Contoh: 17460"
+                            class="block w-full rounded-xl bg-white/5 px-4 py-3 text-[15px] text-white outline-none border border-white/10 placeholder:text-zinc-600 focus:bg-white/10 focus:border-white/30 transition-all">
+                    </div>
+
+                    {{-- Kelas --}}
+                    <div>
+                        <label for="kelas" class="block text-[13px] font-bold text-zinc-300 mb-2">Kelas</label>
+                        <input id="kelas" type="text" name="kelas" value="{{ old('kelas') }}" required placeholder="Contoh: X PPLG 1"
+                            class="block w-full rounded-xl bg-white/5 px-4 py-3 text-[15px] text-white outline-none border border-white/10 placeholder:text-zinc-600 focus:bg-white/10 focus:border-white/30 transition-all">
+                    </div>
+
+                    {{-- Merek Kendaraan --}}
+                    <div x-data="searchableDropdown([
+                        @foreach($merekMotors as $m) { label: '{{ $m->nama_merek }}', value: '{{ $m->id }}' }, @endforeach
+                    ], '{{ old('id_merek') }}')"
+                        @keydown.escape="open = false" @click.outside="open = false" class="relative z-40">
+                        <label class="block text-[13px] font-bold text-zinc-300 mb-2">Merek Kendaraan</label>
+                        <input type="hidden" name="id_merek" :value="selected" :required="!selected">
+                        
+                        <button type="button" @click="open = !open" :class="open ? 'bg-white/10 border-white/30' : 'bg-white/5 border-white/10'" 
+                            class="flex w-full items-center justify-between rounded-xl px-4 py-3 text-[15px] text-white outline-none border hover:bg-white/10 transition-all">
+                            <span :class="!selectedLabel ? 'text-zinc-500' : 'text-white'" x-text="selectedLabel || 'Pilih Merek'"></span>
+                            <span class="material-icons-round text-zinc-500 text-[20px]">expand_more</span>
+                        </button>
+
+                        {{-- Dropdown Panel Dark --}}
+                        <div x-show="open" x-cloak x-transition class="absolute mt-2 w-full overflow-hidden rounded-2xl bg-[#1a1a1a] border border-white/10 shadow-2xl flex flex-col backdrop-blur-xl">
+                            <div class="p-2 border-b border-white/10">
+                                <input type="text" x-model="search" placeholder="Cari..." class="w-full rounded-xl bg-white/5 px-3 py-2 text-[14px] text-white outline-none border border-transparent focus:border-white/20 placeholder:text-zinc-600 transition-all">
+                            </div>
+                            <div class="overflow-y-auto max-h-48 p-1">
+                                <template x-for="option in filteredOptions" :key="option.value">
+                                    <div @click="select(option.value)" :class="selected == option.value ? 'bg-white text-black font-extrabold' : 'text-zinc-300 hover:bg-white/10 hover:text-white'" class="cursor-pointer px-4 py-2.5 text-[14px] rounded-xl transition-colors">
+                                        <span x-text="option.label"></span>
+                                    </div>
+                                </template>
+                                <div x-show="filteredOptions.length === 0" class="px-4 py-3 text-[13px] text-zinc-500 text-center">Tidak ditemukan.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Tipe Motor --}}
+                    <div x-data="searchableDropdown([
+                        @foreach($tipeMotors as $t) { label: '{{ $t }}', value: '{{ $t }}' }, @endforeach
+                        { label: 'Lainnya (Ketik Manual)', value: 'Lainnya' }
+                    ], '{{ old('model_motor') }}')"
+                        @keydown.escape="open = false" @click.outside="open = false" class="relative z-30">
+                        <label class="block text-[13px] font-bold text-zinc-300 mb-2">Tipe Motor (Model)</label>
+                        <input type="hidden" name="model_motor" :value="selected" :required="!selected">
+                        
+                        <button type="button" @click="open = !open" :class="open ? 'bg-white/10 border-white/30' : 'bg-white/5 border-white/10'" 
+                            class="flex w-full items-center justify-between rounded-xl px-4 py-3 text-[15px] text-white outline-none border hover:bg-white/10 transition-all">
+                            <span :class="!selectedLabel ? 'text-zinc-500' : 'text-white'" x-text="selectedLabel || 'Pilih Tipe'"></span>
+                            <span class="material-icons-round text-zinc-500 text-[20px]">expand_more</span>
+                        </button>
+
+                        <div x-show="open" x-cloak x-transition class="absolute mt-2 w-full overflow-hidden rounded-2xl bg-[#1a1a1a] border border-white/10 shadow-2xl flex flex-col backdrop-blur-xl">
+                            <div class="p-2 border-b border-white/10">
+                                <input type="text" x-model="search" placeholder="Cari..." class="w-full rounded-xl bg-white/5 px-3 py-2 text-[14px] text-white outline-none border border-transparent focus:border-white/20 placeholder:text-zinc-600 transition-all">
+                            </div>
+                            <div class="overflow-y-auto max-h-48 p-1">
+                                <template x-for="option in filteredOptions" :key="option.value">
+                                    <div @click="select(option.value)" :class="selected == option.value ? 'bg-white text-black font-extrabold' : 'text-zinc-300 hover:bg-white/10 hover:text-white'" class="cursor-pointer px-4 py-2.5 text-[14px] rounded-xl transition-colors">
+                                        <span x-text="option.label"></span>
+                                    </div>
+                                </template>
+                                <div x-show="filteredOptions.length === 0" class="px-4 py-3 text-[13px] text-zinc-500 text-center">Tidak ditemukan.</div>
+                            </div>
+                        </div>
+
+                        {{-- Input Teks jika "Lainnya" --}}
+                        <div x-show="selected === 'Lainnya'" x-cloak x-transition class="absolute mt-16 w-full z-50 p-4 rounded-xl border border-white/20 bg-[#1a1a1a] shadow-2xl">
+                            <label class="block text-[11px] font-extrabold text-white uppercase tracking-widest mb-2">Ketik Tipe Motor</label>
+                            <input type="text" name="model_motor_custom" value="{{ old('model_motor_custom') }}" placeholder="Harley Davidson" 
+                                   :required="selected === 'Lainnya'"
+                                   class="block w-full rounded-lg bg-white/5 px-3 py-2 text-[14px] text-white outline-none border border-white/10 placeholder:text-zinc-600 focus:border-white/40">
+                        </div>
+                    </div>
+
+                    {{-- Warna Motor --}}
+                    <div x-data="searchableDropdown([
+                        @foreach($warnaList as $w) { label: '{{ $w }}', value: '{{ $w }}' }, @endforeach
+                        { label: 'Lainnya (Ketik Manual)', value: 'Lainnya' }
+                    ], '{{ old('warna') }}')"
+                        @keydown.escape="open = false" @click.outside="open = false" class="relative z-20">
+                        <label class="block text-[13px] font-bold text-zinc-300 mb-2">Warna Dominan</label>
+                        <input type="hidden" name="warna" :value="selected" :required="!selected">
+                        
+                        <button type="button" @click="open = !open" :class="open ? 'bg-white/10 border-white/30' : 'bg-white/5 border-white/10'" 
+                            class="flex w-full items-center justify-between rounded-xl px-4 py-3 text-[15px] text-white outline-none border hover:bg-white/10 transition-all">
+                            <span :class="!selectedLabel ? 'text-zinc-500' : 'text-white'" x-text="selectedLabel || 'Pilih Warna'"></span>
+                            <span class="material-icons-round text-zinc-500 text-[20px]">expand_more</span>
+                        </button>
+
+                        <div x-show="open" x-cloak x-transition class="absolute mt-2 w-full overflow-hidden rounded-2xl bg-[#1a1a1a] border border-white/10 shadow-2xl flex flex-col backdrop-blur-xl">
+                            <div class="p-2 border-b border-white/10">
+                                <input type="text" x-model="search" placeholder="Cari..." class="w-full rounded-xl bg-white/5 px-3 py-2 text-[14px] text-white outline-none border border-transparent focus:border-white/20 placeholder:text-zinc-600 transition-all">
+                            </div>
+                            <div class="overflow-y-auto max-h-48 p-1">
+                                <template x-for="option in filteredOptions" :key="option.value">
+                                    <div @click="select(option.value)" :class="selected == option.value ? 'bg-white text-black font-extrabold' : 'text-zinc-300 hover:bg-white/10 hover:text-white'" class="cursor-pointer px-4 py-2.5 text-[14px] rounded-xl transition-colors">
+                                        <span x-text="option.label"></span>
+                                    </div>
+                                </template>
+                                <div x-show="filteredOptions.length === 0" class="px-4 py-3 text-[13px] text-zinc-500 text-center">Tidak ditemukan.</div>
+                            </div>
+                        </div>
+
+                        {{-- Input Teks jika "Lainnya" --}}
+                        <div x-show="selected === 'Lainnya'" x-cloak x-transition class="absolute mt-16 w-full z-50 p-4 rounded-xl border border-white/20 bg-[#1a1a1a] shadow-2xl">
+                            <label class="block text-[11px] font-extrabold text-white uppercase tracking-widest mb-2">Ketik Warna</label>
+                            <input type="text" name="warna_custom" value="{{ old('warna_custom') }}" placeholder="Merah Maroon" 
+                                   :required="selected === 'Lainnya'"
+                                   class="block w-full rounded-lg bg-white/5 px-3 py-2 text-[14px] text-white outline-none border border-white/10 placeholder:text-zinc-600 focus:border-white/40">
+                        </div>
+                    </div>
+
+                    {{-- Jenis Transmisi --}}
+                    <div>
+                        <label class="block text-[13px] font-bold text-zinc-300 mb-2">Jenis Transmisi</label>
+                        <div class="mt-2 flex gap-5">
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="jenis_transmisi" value="Matic" required
+                                    {{ old('jenis_transmisi', 'Matic') == 'Matic' ? 'checked' : '' }}
+                                    class="dark-radio">
+                                <span class="text-[14px] font-medium text-zinc-400 group-hover:text-white transition-colors">Matic</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="jenis_transmisi" value="Manual"
+                                    {{ old('jenis_transmisi') == 'Manual' ? 'checked' : '' }}
+                                    class="dark-radio">
+                                <span class="text-[14px] font-medium text-zinc-400 group-hover:text-white transition-colors">Manual / Kopling</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    {{-- Plat Nomor --}}
+                    <div class="md:col-span-2 border-t border-white/5 pt-6 mt-2">
+                        <label for="plat_nomor" class="block text-[13px] font-bold text-zinc-300 mb-2">Plat Nomor Kendaraan</label>
+                        <input id="plat_nomor" type="text" name="plat_nomor" value="{{ old('plat_nomor') }}" required placeholder="AA 1234 CD"
+                            class="block w-full rounded-xl bg-white/5 px-4 py-4 text-[20px] font-extrabold text-center text-white uppercase tracking-[0.2em] outline-none border border-white/10 placeholder:text-zinc-700 placeholder:font-medium placeholder:tracking-normal focus:bg-white/10 focus:border-white/40 transition-all">
+                        <p class="mt-2 text-center text-[11px] font-medium text-zinc-500 uppercase tracking-widest">Pastikan plat nomor sesuai STNK.</p>
+                    </div>
+
+                    {{-- Submit --}}
+                    <div class="md:col-span-2 pt-2">
+                        <button type="submit" class="w-full flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-4 text-[15px] font-extrabold text-black hover:bg-zinc-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                            <span class="material-icons-round text-[20px]">how_to_reg</span>
+                            Kirim Data Registrasi
                         </button>
                     </div>
 
-                    <div x-show="open" x-cloak x-transition class="absolute z-50 mt-1 max-h-60 w-full overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 flex flex-col">
-                        <div class="p-2 border-b">
-                            <input type="text" x-model="search" placeholder="Cari merek..." class="w-full rounded bg-gray-50 px-3 py-1.5 text-sm text-gray-900 outline-none border border-gray-200 focus:border-yellow-500">
-                        </div>
-                        <div class="overflow-y-auto flex-1 p-1">
-                            <template x-for="option in filteredOptions" :key="option.value">
-                                <div @click="select(option.value)" :class="selected == option.value ? 'bg-yellow-50 text-yellow-700 font-bold' : 'text-gray-900 hover:bg-gray-100'" class="cursor-pointer px-3 py-2 text-sm rounded">
-                                    <span x-text="option.label"></span>
-                                </div>
-                            </template>
-                            <div x-show="filteredOptions.length === 0" class="px-3 py-2 text-sm text-gray-500">Tidak ditemukan.</div>
-                        </div>
-                    </div>
+                </form>
+
+                <div class="mt-10 pt-6 border-t border-white/5 text-center text-[13px] font-medium text-zinc-500">
+                    Sudah memiliki akses?
+                    <a href="/login" class="font-bold text-white hover:text-zinc-300 transition-colors ml-1">Masuk di sini</a>
                 </div>
 
-                {{-- Tipe Motor --}}
-                <div x-data="searchableDropdown([
-                    @foreach($tipeMotors as $t) { label: '{{ $t }}', value: '{{ $t }}' }, @endforeach
-                    { label: 'Lainnya (Ketik Manual)', value: 'Lainnya' }
-                ], '{{ old('model_motor') }}')"
-                    @keydown.escape="open = false" @click.outside="open = false" class="relative">
-                    <label class="block text-sm/6 font-medium text-gray-900">Tipe Motor (Model)</label>
-                    <input type="hidden" name="model_motor" :value="selected" :required="!selected">
-                    
-                    <div class="mt-2">
-                        <button type="button" @click="open = !open" :class="open ? 'outline-2 outline-yellow-600' : 'outline-1 outline-gray-300'" class="flex w-full items-center justify-between rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline -outline-offset-1 focus:outline-2 focus:outline-yellow-600">
-                            <span :class="!selectedLabel ? 'text-gray-400' : 'text-gray-900'" x-text="selectedLabel || 'Pilih Tipe Motor (Ketik untuk mencari)'"></span>
-                            <span class="material-icons-round text-gray-400 text-[20px]">expand_more</span>
-                        </button>
-                    </div>
-
-                    <div x-show="open" x-cloak x-transition class="absolute z-50 mt-1 max-h-60 w-full overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 flex flex-col">
-                        <div class="p-2 border-b">
-                            <input type="text" x-model="search" placeholder="Cari tipe motor..." class="w-full rounded bg-gray-50 px-3 py-1.5 text-sm text-gray-900 outline-none border border-gray-200 focus:border-yellow-500">
-                        </div>
-                        <div class="overflow-y-auto flex-1 p-1">
-                            <template x-for="option in filteredOptions" :key="option.value">
-                                <div @click="select(option.value)" :class="selected == option.value ? 'bg-yellow-50 text-yellow-700 font-bold' : 'text-gray-900 hover:bg-gray-100'" class="cursor-pointer px-3 py-2 text-sm rounded">
-                                    <span x-text="option.label"></span>
-                                </div>
-                            </template>
-                            <div x-show="filteredOptions.length === 0" class="px-3 py-2 text-sm text-gray-500">Tidak ditemukan.</div>
-                        </div>
-                    </div>
-
-                    {{-- Input Teks jika "Lainnya" --}}
-                    <div x-show="selected === 'Lainnya'" x-cloak x-transition class="mt-3 p-3 rounded-lg border border-yellow-200 bg-yellow-50">
-                        <label class="block text-xs font-bold text-yellow-800 mb-1">Ketik Tipe Motor Anda</label>
-                        <input type="text" name="model_motor_custom" value="{{ old('model_motor_custom') }}" placeholder="Contoh: Harley Davidson" 
-                               :required="selected === 'Lainnya'"
-                               class="block w-full rounded bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:outline-yellow-600">
-                    </div>
-                </div>
-
-                {{-- Warna Motor --}}
-                <div x-data="searchableDropdown([
-                    @foreach($warnaList as $w) { label: '{{ $w }}', value: '{{ $w }}' }, @endforeach
-                    { label: 'Lainnya (Ketik Manual)', value: 'Lainnya' }
-                ], '{{ old('warna') }}')"
-                    @keydown.escape="open = false" @click.outside="open = false" class="relative">
-                    <label class="block text-sm/6 font-medium text-gray-900">Warna Dominan</label>
-                    <input type="hidden" name="warna" :value="selected" :required="!selected">
-                    
-                    <div class="mt-2">
-                        <button type="button" @click="open = !open" :class="open ? 'outline-2 outline-yellow-600' : 'outline-1 outline-gray-300'" class="flex w-full items-center justify-between rounded-md bg-white px-3 py-1.5 text-sm text-gray-900 outline -outline-offset-1 focus:outline-2 focus:outline-yellow-600">
-                            <span :class="!selectedLabel ? 'text-gray-400' : 'text-gray-900'" x-text="selectedLabel || 'Pilih Warna'"></span>
-                            <span class="material-icons-round text-gray-400 text-[20px]">expand_more</span>
-                        </button>
-                    </div>
-
-                    <div x-show="open" x-cloak x-transition class="absolute z-50 mt-1 max-h-60 w-full overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 flex flex-col">
-                        <div class="p-2 border-b">
-                            <input type="text" x-model="search" placeholder="Cari warna..." class="w-full rounded bg-gray-50 px-3 py-1.5 text-sm text-gray-900 outline-none border border-gray-200 focus:border-yellow-500">
-                        </div>
-                        <div class="overflow-y-auto flex-1 p-1">
-                            <template x-for="option in filteredOptions" :key="option.value">
-                                <div @click="select(option.value)" :class="selected == option.value ? 'bg-yellow-50 text-yellow-700 font-bold' : 'text-gray-900 hover:bg-gray-100'" class="cursor-pointer flex items-center gap-2 px-3 py-2 text-sm rounded">
-                                    <span x-text="option.label"></span>
-                                </div>
-                            </template>
-                            <div x-show="filteredOptions.length === 0" class="px-3 py-2 text-sm text-gray-500">Tidak ditemukan.</div>
-                        </div>
-                    </div>
-
-                    {{-- Input Teks jika "Lainnya" --}}
-                    <div x-show="selected === 'Lainnya'" x-cloak x-transition class="mt-3 p-3 rounded-lg border border-yellow-200 bg-yellow-50">
-                        <label class="block text-xs font-bold text-yellow-800 mb-1">Ketik Warna Kendaraan</label>
-                        <input type="text" name="warna_custom" value="{{ old('warna_custom') }}" placeholder="Contoh: Merah Maroon" 
-                               :required="selected === 'Lainnya'"
-                               class="block w-full rounded bg-white px-3 py-1.5 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:outline-yellow-600">
-                    </div>
-                </div>
-
-                {{-- Jenis Transmisi --}}
-                <div>
-                    <label class="block text-sm/6 font-medium text-gray-900">Jenis Transmisi</label>
-                    <div class="mt-2 flex gap-4">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="jenis_transmisi" value="Matic" required
-                                {{ old('jenis_transmisi', 'Matic') == 'Matic' ? 'checked' : '' }}
-                                class="accent-yellow-600">
-                            <span class="text-sm font-medium text-gray-900">Matic</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="jenis_transmisi" value="Manual"
-                                {{ old('jenis_transmisi') == 'Manual' ? 'checked' : '' }}
-                                class="accent-yellow-600">
-                            <span class="text-sm font-medium text-gray-900">Manual (Kopling/Bebek)</span>
-                        </label>
-                    </div>
-                </div>
-
-                {{-- Plat Nomor --}}
-                <div>
-                    <label for="plat_nomor" class="block text-sm/6 font-medium text-gray-900">Plat Nomor Kendaraan</label>
-                    <div class="mt-2">
-                        <input id="plat_nomor" type="text" name="plat_nomor" value="{{ old('plat_nomor') }}" required
-                            placeholder="Contoh: AA 1234 CD"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 uppercase tracking-widest outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 placeholder:normal-case placeholder:tracking-normal focus:outline-2  focus:outline-yellow-600 sm:text-sm/6">
-                    </div>
-                    <p class="mt-1.5 text-xs text-gray-400">Pastikan plat nomor sesuai STNK kendaraanmu.</p>
-                </div>
-
-                {{-- Submit --}}
-                <div>
-                    <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-yellow-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
-                        Kirim Data Pendaftaran
-                    </button>
-                </div>
-            </form>
-
-            {{-- Back to Login --}}
-            <p class="mt-10 text-center text-sm/6 text-gray-500">
-                Sudah punya akun?
-                <a href="/login" class="font-semibold text-yellow-600 hover:text-yellow-500">Masuk di sini</a>
-            </p>
+            </div>
 
         </div>
     </div>

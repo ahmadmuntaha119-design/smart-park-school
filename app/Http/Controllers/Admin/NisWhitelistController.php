@@ -46,9 +46,35 @@ class NisWhitelistController extends Controller
     // Menghapus data NIS cadangan jika angkatan sudah lulus
     public function destroyAll()
     {
-        // Kita hanya menghapus yang BELUM daftar saja, agar data yang sudah kepakai tidak rusak
+        // Ambil semua NIS yang belum daftar
+        $nisBelumDaftar = NisWhitelist::where('sudah_daftar', false)->pluck('nis')->toArray();
+
+        // Hapus akun user yang NIS-nya ada di daftar tersebut (data sampah)
+        if (!empty($nisBelumDaftar)) {
+            \App\Models\User::whereIn('nis_nip', $nisBelumDaftar)->delete();
+        }
+
+        // Baru hapus entri whitelist-nya
         NisWhitelist::where('sudah_daftar', false)->delete();
-        return back()->with('success', 'Data NIS Whitelist bersih-bersih sukses!');
+
+        return back()->with('success', 'Whitelist bersih! Seluruh NIS yang belum terdaftar beserta akun sampahnya telah dihapus.');
+    }
+
+    // Hapus 1 entri NIS beserta akunnya (jika ada)
+    public function destroy(NisWhitelist $whitelist)
+    {
+        // Jika NIS ini sudah punya akun, hapus akunnya sekalian
+        $user = \App\Models\User::where('nis_nip', $whitelist->nis)->first();
+        if ($user) {
+            // Hapus kendaraan dulu jika ada (cascade aman)
+            \App\Models\Kendaraan::where('id_user', $user->id)->delete();
+            $user->delete();
+        }
+
+        $nis = $whitelist->nis;
+        $whitelist->delete();
+
+        return back()->with('success', "NIS {$nis} beserta akunnya (jika ada) berhasil dihapus.");
     }
 
     // Export Data Laporan Whitelist
