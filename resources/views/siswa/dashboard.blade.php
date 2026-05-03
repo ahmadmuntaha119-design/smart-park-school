@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#f8f9fa">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Smart Parkir – PKS SMKN 1 Kebumen</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -242,10 +243,8 @@
                 </div>
                 <div class="absolute inset-2 rounded-full flex items-center justify-center z-10"
                      :style="inRange ? 'background:#ffffff; box-shadow: 0 0 30px rgba(255,255,255,0.5)' : (jarak !== null ? 'background:#3f3f46; box-shadow: 0 0 20px rgba(63,63,70,0.5)' : 'background:rgba(255,255,255,0.2)')">
-                     <span class="material-symbols-outlined text-white" style="font-size:42px; font-variation-settings: 'FILL' 1;">
-                         <template x-if="jarak === null">location_searching</template>
-                         <template x-if="jarak !== null && inRange">near_me</template>
-                         <template x-if="jarak !== null && !inRange">location_off</template>
+                     <span class="material-symbols-outlined text-white" style="font-size:42px; font-variation-settings: 'FILL' 1;"
+                           x-text="jarak === null ? 'location_searching' : (inRange ? 'near_me' : 'location_off')">
                      </span>
                 </div>
             </div>
